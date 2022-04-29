@@ -29,3 +29,36 @@ h5 {
     border-radius: 15px;
     margin-top: 3%;
 }
+
+#search {
+    width: 95%;
+    margin-left: 2%;
+}
+
+#searchDiv {
+    border: black solid 1px;
+    border-radius: 10px;
+    height: 50%;
+}
+
+div h6 {
+    margin-left: 5%;
+}
+
+@media screen and (max-width: 600px) 
+{
+    #searchSection {
+      margin-left: 0;
+      order: 1;
+     }
+    
+     #featureSection {
+        font-size: small;
+     }
+
+     #features
+     {
+        font-weight: bold;
+     }
+     
+}

@@ -36,8 +36,15 @@
                     </ul>
                 </div>
             </div>
-            <div id="searchSection" class="col s12 l6 blue">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim vitae voluptatibus, corrupti laboriosam praesentium rem iusto quis unde commodi alias eligendi, sapiente provident facere odio sequi laudantium expedita velit tempore.
+            <div id="searchSection" class="col s12 l6 blue darken-1">
+                <h6 class="white-text" style="font-weight: bold;">Search for Words Using English, Romanji, Katakana or Kanji</h6>
+                <div class="container indigo lighten-2" id="searchDiv">
+                    <label for="search"></label>
+                    <input type="text" id="search" class="white-text">
+                </div>
+                <div>
+
+                </div>
             </div>
         </div>
     </div>
