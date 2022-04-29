@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <?= createHeader2(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == 1, '../images/headericon.png', 'indigo') ?>
+    <?= createHeader2(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == 1, './images/headericon.png', 'indigo') ?>
 </body>
 
 </html>
