@@ -12,8 +12,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js" crossorigin="anonymous"></script>
-    <script src="../partials/sidenav.js"></script>
-    <link rel="stylesheet" href="../partials/header.css" />
+    <script src="./scripts/sidenav.js"></script>
+    <link rel="stylesheet" href="./css/header.css" />
     <title>Home</title>
 </head>
 
