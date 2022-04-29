@@ -1,5 +1,14 @@
+
+body {
+    /* https://unsplash.com/photos/SBK40fdKbAg */
+    background-image: url("../images/homeimage.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 50% 20%;
+  }
 .container{
-    width: 90%;
+    width: 50%;
 }
 
 body .row{
@@ -21,13 +30,12 @@ h5 {
 
 #featureSection {
     border-radius: 15px;
-    margin-top: 15%;
+    margin-top: 5%;
 }
 
 #searchSection {
-    margin-left: 5%;
     border-radius: 15px;
-    margin-top: 3%;
+    margin-top: 28%;
 }
 
 #search {
@@ -38,15 +46,20 @@ h5 {
 #searchDiv {
     border: black solid 1px;
     border-radius: 10px;
-    height: 50%;
+    width: 95%;
 }
 
 div h6 {
-    margin-left: 5%;
+    margin-left: 3%;
 }
 
 @media screen and (max-width: 600px) 
 {
+    .container
+    {
+        width: 80%;
+    }
+    
     #searchSection {
       margin-left: 0;
       order: 1;

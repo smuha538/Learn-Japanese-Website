@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "unofficial-jisho-api": "^2.3.0"
+  }
+}

@@ -23,7 +23,17 @@
 
     <div class="container">
         <div class="row">
-            <div id='featureSection' class='col s12 l5 teal lighten-1'>
+            <div id="searchSection" class="col s12 blue darken-1">
+                <h6 class="white-text" style="font-weight: bold;">Search Using English, Romanji, Katakana or Kanji</h6>
+                <div class="container indigo lighten-2" id="searchDiv">
+                    <label for="search"></label>
+                    <input type="text" id="search" class="white-text">
+                </div>
+                <div class="white-text" style="margin-top: 5px; font-weight: bold; margin-left:22px; font-size:x-small">
+                    You can Search For Words or Phrases
+                </div>
+            </div>
+            <div id='featureSection' class='col s12 teal lighten-1'>
                 <h5 class='center-align white-text'>ALL YOUR LEARNING NEEDS IN ONE PLACE</h5>
                 <div class='black-text'>
                     <a href='./register.php' class='blue-text text-darken-3' style='font-weight: bolder;'>Create</a> an Account or <a href='./login.php' class='blue-text text-darken-3' style='font-weight: bolder;'>Login</a> to Unlock New Features Such as:
@@ -36,16 +46,9 @@
                     </ul>
                 </div>
             </div>
-            <div id="searchSection" class="col s12 l6 blue darken-1">
-                <h6 class="white-text" style="font-weight: bold;">Search for Words Using English, Romanji, Katakana or Kanji</h6>
-                <div class="container indigo lighten-2" id="searchDiv">
-                    <label for="search"></label>
-                    <input type="text" id="search" class="white-text">
-                </div>
-                <div>
-
-                </div>
-            </div>
+        </div>
+        <div class="container center-align">
+            Photo by <a href="https://unsplash.com/photos/SBK40fdKbAg?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink">Tianshu Liu</a> on <a href="https://unsplash.com/">Unsplash</a>
         </div>
     </div>
 </body>
