@@ -47,10 +47,11 @@
                 </div>
             </div>
         </div>
-        <div class="container center-align">
-            Photo by <a href="https://unsplash.com/photos/SBK40fdKbAg?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink">Tianshu Liu</a> on <a href="https://unsplash.com/">Unsplash</a>
+        <div class="container center-align white-text">
+            Photo by <a href="https://unsplash.com/photos/SBK40fdKbAg?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink" class="indigo-text">Tianshu Liu</a> on <a href="https://unsplash.com/" class="indigo-text">Unsplash</a>
         </div>
     </div>
+    <script src="./scripts/index.js"></script>
 </body>
 
 </html>
