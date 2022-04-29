@@ -1,0 +1,31 @@
+.container{
+    width: 90%;
+}
+
+body .row{
+    margin-top: 2rem;
+}
+
+h5 {
+    font-weight: bold;
+}
+
+#features li {
+    font-weight: bolder;
+    margin-top: 10pt;
+    background-color: indigo;
+    color: white;
+    text-align: center;
+    border-radius: 25px;
+}
+
+#featureSection {
+    border-radius: 15px;
+    margin-top: 15%;
+}
+
+#searchSection {
+    margin-left: 5%;
+    border-radius: 15px;
+    margin-top: 3%;
+}

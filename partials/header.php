@@ -27,17 +27,16 @@ function createAllItems($loggedIn)
 {
   $completedItem = "";
   if ($loggedIn) {
-    $completedItem .= createNavItem('../index.php', 'Home');
-    $completedItem .= createNavItem('../aboutus/aboutus.php', 'About');
-    $completedItem .= createNavItem('../translator/translator.php', 'Translator');
-    $completedItem .= createNavItem('../flashcard/flashcard.php', 'Flashcard');
-    $completedItem .= createNavItem('../logoutpage/logout.php', 'Log out', 'logout');
+    $completedItem .= createNavItem('./index.php', 'Home');
+    $completedItem .= createNavItem('./about.php', 'About');
+    $completedItem .= createNavItem('./translator.php', 'Translator');
+    $completedItem .= createNavItem('./flashcard.php', 'Flashcard');
+    $completedItem .= createNavItem('./logout.php', 'Log out', 'logout');
   } else {
-    $completedItem .= createNavItem('../index.php', 'Home');
-    $completedItem .= createNavItem('../aboutus/aboutus.php', 'About');
-    $completedItem .= createNavItem('../translator/translator.php', 'Translator');
-    $completedItem .= createNavItem('../loginpage/login.php', 'Login');
-    $completedItem .= createNavItem('../registerpage/register.php', 'Register');
+    $completedItem .= createNavItem('./index.php', 'Home');
+    $completedItem .= createNavItem('./about.php', 'About');
+    $completedItem .= createNavItem('./login.php', 'Login');
+    $completedItem .= createNavItem('./register.php', 'Register');
   }
 
 
