@@ -1,4 +1,4 @@
-import JishoAPI from './unofficial-jisho-api';
+import JishoAPI from '../node_modules/unofficial-jisho-api/index.js';
 
 const jisho = new JishoAPI();
 
