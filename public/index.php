@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js" crossorigin="anonymous"></script>
     <script src="./scripts/sidenav.js"></script>
-    <script src="./scripts/index.js" type="module"></script>
     <link rel="stylesheet" href="./css/header.css" />
     <link rel="stylesheet" href="./css/index.css" />
     <title>Home</title>
@@ -52,7 +51,7 @@
             Photo by <a href="https://unsplash.com/photos/SBK40fdKbAg?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink" class="indigo-text">Tianshu Liu</a> on <a href="https://unsplash.com/" class="indigo-text">Unsplash</a>
         </div>
     </div>
-
+    <script src="./scripts/index.js" type="module"></script>
 </body>
 
 </html>
