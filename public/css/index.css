@@ -11,6 +11,11 @@ body {
     width: 50%;
 }
 
+#searchButton {
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
 body .row{
     margin-top: 2rem;
 }
@@ -30,7 +35,7 @@ h5 {
 
 #featureSection {
     border-radius: 15px;
-    margin-top: 5%;
+    margin-top: 2%;
 }
 
 #searchSection {
@@ -38,7 +43,7 @@ h5 {
     margin-top: 28%;
 }
 
-#search {
+#searchBar {
     width: 95%;
     margin-left: 2%;
 }
