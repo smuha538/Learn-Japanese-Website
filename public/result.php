@@ -5,6 +5,7 @@
 <head>
     <?= require "../partials/headtags.php" ?>
     <link rel="stylesheet" href="./css/result.css" />
+    <script src="./scripts/result.js"></script>
     <title>Search Results</title>
 </head>
 
@@ -28,6 +29,7 @@
                     <!-- one result -->
                     <div class="col s12 result">
                         <div class="row">
+                            <!-- wordSection -->
                             <div class="col s12 l3">
                                 <div class="word">
                                     <span class="furigana">
@@ -37,8 +39,10 @@
                                         僕
                                     </span>
                                 </div>
+
+                                <!-- tagSection -->
                                 <div class="row">
-                                    <div class="tags col s6 l12">
+                                    <div class="tags col s12">
                                         <span class="green white-text">
                                             Common
                                         </span>
@@ -50,22 +54,24 @@
                                             Wanikani
                                         </span>
                                     </div>
-                                    <div class="addTocard blue z-depth-2 col s2 l6">
+                                    <div class="addTocard blue z-depth-2 col s12">
                                         <a href="#">
-                                            <span class="addMessage white-text">Add to Deck</span><i class="material-icons addButton white-text" style="font-size: 16px;">add_circle</i>
+                                            <span class="addMessage white-text">Add to Deck</span><i class="material-icons addButton white-text">add_circle</i>
                                         </a>
                                     </div>
                                 </div>
                             </div>
+
+
                             <div class="col s12 l7 definitionSection">
                                 <!-- senses -->
                                 <div class="row">
                                     <!-- one element ie. pronoun-->
                                     <div class="col s12 definition">
-                                        <div class="grey-text text-darken-1">
+                                        <span class="grey-text text-darken-1 speech">
                                             <!-- (part of speech) -->
                                             Pronoun
-                                        </div>
+                                        </span>
                                         <div>
                                             <span class="grey-text">1.</span> <span>I; Me</span>
                                             <span class="grey-text text-lighten-1 definitionTags">
@@ -106,8 +112,10 @@
                                 <hr class="col s12 divider">
                             </div>
 
+
                         </div>
                     </div>
+
 
                 </div>
             </div>
