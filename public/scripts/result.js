@@ -1,197 +1,296 @@
-// document.addEventListener("DOMContentLoaded", () => {
-//     let keyword;
-//     let page;
-//     let resultSection = document.querySelector("#resultSection");
-//     keyword = sessionStorage.getItem("keyword");
-//     page = sessionStorage.getItem("page");
+document.addEventListener("DOMContentLoaded", () => {
+    let keyword = sessionStorage.getItem("keyword");    ;
+    let page = sessionStorage.getItem("page");
+    let resultSection = document.querySelector("#resultSection");
+    let showMoreButton = document.querySelector("#showMoreButton");
     
-//     if(keyword != "")
-//     {
-//         searchKeyword(keyword, page);
-//     }
-//     else
-//     {
-//         noResult();
-//     }
+    if(keyword != "")
+    {
+        searchKeyword(keyword, page);
+    }
+    else
+    {
+        noResult();
+    }
 
-//     function searchKeyword(keyword, page)
-//     {
-//         let endpoint = `https://cors-for-apis.herokuapp.com/https://jisho.org/api/v1/search/words?keyword=${keyword}&page=${page}`;
-//         fetch(endpoint)
-//         .then((response) => response.json())
-//         .then((result) =>{
-//         validateData(result.data, page)});
-//     }
+    function noResult()
+    {
+        let error = document.createElement("h1");
+        error.textContent = "No Results Found";
+        error.setAttribute("class", "errorMessage center-align");
+        clearChild(resultSection);
+        appendToElement(error, resultSection);
+    }
 
-//     function validateData(data, page)
-//     {
-//         if(!data && page == 1)
-//         {
-//             noResult();
-//         }
-//         else if(!data && page != 1)
-//         {
-//             noMorePages();
-//         }
-//         else
-//         {
-//             displayResults(data);
-//         }
-//     }
+    function searchKeyword(keyword, page)
+    {
+        let endpoint = `https://cors-for-apis.herokuapp.com/https://jisho.org/api/v1/search/words?keyword=${keyword}&page=${page}`;
+        fetch(endpoint)
+        .then((response) => response.json())
+        .then((result) =>{
+        validateData(result.data, page)});
+    }
 
-//     function displayResults(data)
-//     {
-//         clearChild(resultSection);
-//         data.forEach((word) => {
-//             let result = createResultSection(word);
-//             appendToElement(result, resultSection);
-//         });
-//     }
+    function noMorePages()
+    {
+        showMoreButton.classList.add("disabled");
+    }
 
-//     function clearChild(section)
-//     {
-//         section.replaceChildren();
-//     }
+    function validateData(data, page)
+    {
+        if(data.length == 0 && page == 1)
+        {
+            noResult();
+        }
+        else if(data.length == 0 && page != 1)
+        {
+            noMorePages();
+        }
+        else
+        {
+            sessionStorage.setItem("page", page);
+            displayResults(data);
+        }
+    }
 
-//     function createResultSection(keyword)
-//     {
-//         let resultDiv = createDiv(["col", "s12", "result"]);
-//         let row = createDiv(["row"]);
-//         appendToElement(row, resultDiv);
-//         let wordSection = createWordSection(keyword)
-//         appendToElement(wordSection, row);
-//         let definitionSection = createDefinitionSection(keyword);
-//         appendToElement(definitionSection, row);
-//     }
+    function displayResults(data)
+    {
+        clearChild(resultSection);
+        data.forEach((word) => {
+            let result = createResultSection(word);
+            appendToElement(result, resultSection);
+        });
+    }
 
-//     function createDefinitionSection(definitions)
-//     {
-//         let definitionSection = createDiv(["col", "s12", "l7", "definitionSection"]);
-//         let row = createDiv(["row"]);
+    function clearChild(section)
+    {
+        section.replaceChildren();
+    }
+
+    function createResultSection(keyword)
+    {
+        let resultDiv = createDiv("col s12 result");
+        let row = createDiv("row");
+        appendToElement(row, resultDiv);
+        let wordSection = createWordSection(keyword)
+        appendToElement(wordSection, row);
+        let definitionSection = createDefinitionSection(keyword);
+        appendToElement(definitionSection, row);
+        return resultDiv;
+    }
+
+    function createDefinitionSection(definitions)
+    {
+        let definitionSection = createDiv("col s12 l7 definitionSection");
+        let row = createDiv("row");
+        let counter = 1;
         
-//         definitions.senses.forEach((definition) => {
-//             let entry = createDefinitionEntry(definition);
-//             appendToElement(entry, row); 
-//         });
+        definitions.senses.forEach((definition) => {
+            let entry = createDefinitionEntry(definition, counter);
+            appendToElement(entry, row); 
+            counter++;
+        });
 
-//         appendToElement(row, definitionSection);
+        let divider = createDivider("col s12 divider");
+        appendToElement(row, definitionSection);
+        appendToElement(divider, definitionSection);
 
-//         return definitionSection;
-//     }
+        return definitionSection;
+    }
 
-//     function createDefinitionEntry(definition)
-//     {
-//         let definitionEntry = createDiv(["col", "s12", "definition"]);
-//         let partOfSpeech = createSpan(definition.parts_of_speech, ["grey-text", "text-darken-1", "speech"]);
-//         appendToElement(partOfSpeech, definitionEntry);
-//         let englishDefinition = createDiv();
-//         definition.english_definitions.forEach((english) => {
-//             let 
-//         });
+    function createDivider(classes)
+    {
+        let divider = document.createElement("hr");
+        divider.setAttribute("class", classes);
+        return divider;
+    }
 
-//         return definitionEntry;
-//     }
+    function createDefinitionEntry(definition, counter)
+    {
+        let definitionEntry = createDiv("col s12 definition");
+        let partOfSpeech = createSpan(definition.parts_of_speech.join(", "), "grey-text text-darken-1 speech");
+        appendToElement(partOfSpeech, definitionEntry);
+        let englishDefinition = createDiv();
+        appendToElement(englishDefinition, definitionEntry);
+        let counterSpan = createSpan(`${counter}. `, "grey-text");
+        let englishSection = createSpan(definition.english_definitions.join("; "));
+        appendToElement(counterSpan, englishDefinition);
+        appendToElement(englishSection, englishDefinition);
 
-//     function createWordSection(keyword)
-//     {
-//         let wordSection = createDiv(["col", "s12", "l3"]);
-//         let word = createDiv(["word"]);
-//         let furigana = createSpan(keyword.japanese.reading, ["furigana"]);
-//         let kanji = createSpan(keyword.japanese.word, ["kanji"]);
-//         appendToElement(furigana, word);
-//         appendToElement(kanji, word);
-//         appendToElement(word, wordSection);
-//         let tagSection = createTagSection(keyword);
-//         appendToElement(tagSection, wordSection);
-//         return wordSection;
-//     }
+        for (let property in definition)
+        {
+            
+            if(property != "english_definitions"  && property != "parts_of_speech")
+            {
+             
+                let fieldSection = "";
+                if(property  == "see_also" && definition[property] != "")
+                {
+                    fieldSection =  createSpan(`See Also, ${definition[property]}`, "grey-text text-lighten-1 definitionTags seeAlso");
+                }
+                else if(property == "links" && definition[property] != "")
+                {
+                    let link = "";
+                    let counter = 0;
+                    definition[property].forEach((data) => {
+                        if(data.text)
+                        {
+                            counter > 0 ? link += ", " : link += "";
+                            link += data.text
+                            if(data.url)
+                            {
+                                link += ", " + data.url;
+                                counter++;
+                            }
+                        }
+                    });                    
+                     
+                    fieldSection =  createDiv("grey-text text-lighten-1 definitionTags", link);
+                    
+                }
+                else if(definition[property] != "")
+                {
+                    fieldSection =  createSpan(definition[property] + ", ", "grey-text text-lighten-1 definitionTags");
+                }
 
-//     function createTagSection(keyword)
-//     {
-//         let tagSection = createDiv(["row"]);
-//         let tag = createDiv(["tags", "col", "s6", "l12"]);
+                if(fieldSection != "")
+                {
+                    appendToElement(fieldSection, englishSection);
+                }
+                
+                
+            }
+        }
+
+        return definitionEntry;
+    }
+
+    function createWordSection(keyword)
+    {
+        let wordSection = createDiv("col s12 l3");
+        let word = createDiv("word");
+        let furigana = createSpan(keyword.japanese[0].reading, "furigana");
+        let kanji = createSpan(keyword.japanese[0].word, "kanji");
+        appendToElement(furigana, word);
+        appendToElement(kanji, word);
+        appendToElement(word, wordSection);
+        let tagSection = createTagSection(keyword);
+        appendToElement(tagSection, wordSection);
+        return wordSection;
+    }
+
+    function createTagSection(keyword)
+    {
+        let tagSection = createDiv("row");
+        let tag = createDiv("tags col s6 l12");
         
-//         if(keyword.is_common)
-//         {
-//             let common = createSpan("Common", ["green", "white-text"]);
-//             appendToElement(common, tag);
-//         }
+        if(keyword.is_common)
+        {
+            let common = createSpan("Common", "green white-text");
+            appendToElement(common, tag);
+        }
 
-//         let jlpt = createSpan(keyword.jlpt[0], ["green", "white-text"], true);
-//         let wanikani = createSpan(keyword.tags[0], ["green", "white-text"], true);
-//         appendToElement(jlpt, tag);
-//         appendToElement(wanikani, tag);
-//         appendToElement(tag, tagSection);
+        keyword.jlpt.forEach((jlpt) => {
+            let jlptSection = createSpan(jlpt, "grey white-text", true);
+            appendToElement(jlptSection, tag);
+        });
 
-//         if(isLoggedIn())
-//         {
-//             insert = insertOption();
-//             appendToElement(insert, tagSection);
-//         }
-//         return tagSection;
-//     }
+        keyword.tags.forEach((wanikani) => {
+            let wanikaniSection = createSpan(wanikani, "grey white-text", true);
+            appendToElement(wanikaniSection, tag);
+        });
 
-//     function insertOption()
-//     {
-//         let insertToDeck = createDiv(["addTocard", "blue", "z-depth-2", "col", "s2", "l6"]);
-//         let href = createHref();  
-//         let message = createSpan("Add to Deck", ["addMessage", "white-text"]);
-//         let icon = createIcon("add_circle", ["material-icons", "addButton", "white-text"]);
-//         appendToElement(message, href);
-//         appendToElement(icon, href);
-//         appendToElement(href, insertToDeck);
-//         return insertToDeck;
-//     }
+        appendToElement(tag, tagSection);
 
-//     function createIcon(icon, classes)
-//     {
-//         let iconSection = document.createElement("i");
-//         icon.textContent = icon;
-//         classes.forEach((classAtr) => icon.setAttribute("class", classAtr));
-//         return iconSection;
-//     }
+        if(isLoggedIn())
+        {
+            insert = insertOption();
+            appendToElement(insert, tagSection);
+        }
+        return tagSection;
+    }
 
-//     function createHref(reference = null)
-//     {
-//         let ref = document.createElement("a");
-//         if(reference)
-//         {
-//             ref.href = reference;
-//         }
-//         return ref;
-//     }
+    function insertOption()
+    {
+        let insertToDeck = createDiv("addTocard blue z-depth-2 col s2 l6");
+        let href = createHref();  
+        let message = createSpan("Add to Deck", "addMessage white-text");
+        let icon = createIcon("add_circle", "material-icons addButton white-text");
+        appendToElement(message, href);
+        appendToElement(icon, href);
+        appendToElement(href, insertToDeck);
+        return insertToDeck;
+    }
 
-//     function isLoggedIn()
-//     {
-//         return false
-//     }
+    function createIcon(icon, classes)
+    {
+        let iconSection = document.createElement("i");
+        iconSection.textContent = icon;
+        iconSection.setAttribute("class", classes);
+        return iconSection;
+    }
 
-//     function capitaliseFirstLetter(string) {
-//         return string.charAt(0).toUpperCase() + string.slice(1);
-//       }
+    function createHref(reference = null)
+    {
+        let ref = document.createElement("a");
+        if(reference)
+        {
+            ref.href = reference;
+        }
+        return ref;
+    }
 
-//     function createDiv(classes = null)
-//     {
-//         let div = document.createElement("div");
-//         if(classes)
-//         {
-//             classes.forEach((classAtr) => div.setAttribute("class", classAtr));
-//         }
-//         return div;
-//     }
+    function isLoggedIn()
+    {
+        return false
+    }
 
-//     function createSpan(entry, classes, tags = false)
-//     {
-//         let span = document.createElement("span");
-//         tags ? span.textContent = capitaliseFirstLetter(entry) : span.textContent = entry;
-//         classes.forEach((classAtr) => span.setAttribute("class", classAtr));
-//         return span;
-//     }
+    function capitaliseFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+      }
 
-//     function appendToElement(appender, appendTo)
-//     {
-//         appendTo.appendChild(appender);
-//     }
+    function createDiv(classes = null, data = null)
+    {
+        let div = document.createElement("div");
+        if(classes)
+        {
+            div.setAttribute("class", classes);
+        }
+        if(data)
+        {
+            div.textContent = data;
+        }
+        return div;
+    }
 
-// });
+    function createSpan(entry, classes, tags = false)
+    {
+        let span = document.createElement("span");
+        tags ? span.textContent = capitaliseFirstLetter(entry) : span.textContent = entry;
+        if(classes)
+        {
+          span.setAttribute("class", classes);  
+        }
+        
+        return span;
+    }
+
+    function appendToElement(appender, appendTo)
+    {
+        appendTo.appendChild(appender);
+    }
+
+    function showMore()
+    {
+        let oldPage = sessionStorage.getItem("page");
+        let newPage = parseInt(oldPage)+ 1;
+        searchKeyword(keyword, newPage);
+        window.scrollTo(0, 0);
+    }
+
+    showMoreButton.addEventListener("click", () => {
+        showMore();
+    });
+
+});
 

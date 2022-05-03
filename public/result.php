@@ -26,10 +26,9 @@
             <div class="col s12">
                 <div class="row" id="resultSection">
 
-                    <!-- one result -->
-                    <div class="col s12 result">
+
+                    <!-- <div class="col s12 result">
                         <div class="row">
-                            <!-- wordSection -->
                             <div class="col s12 l3">
                                 <div class="word">
                                     <span class="furigana">
@@ -39,8 +38,6 @@
                                         僕
                                     </span>
                                 </div>
-
-                                <!-- tagSection -->
                                 <div class="row">
                                     <div class="tags col s12">
                                         <span class="green white-text">
@@ -50,7 +47,7 @@
                                             JLPT N5
                                         </span>
                                         <span class="grey white-text">
-                                            <!-- tags -->
+                                         
                                             Wanikani
                                         </span>
                                     </div>
@@ -61,49 +58,46 @@
                                     </div>
                                 </div>
                             </div>
-
-
                             <div class="col s12 l7 definitionSection">
-                                <!-- senses -->
+                        
                                 <div class="row">
-                                    <!-- one element ie. pronoun-->
                                     <div class="col s12 definition">
                                         <span class="grey-text text-darken-1 speech">
-                                            <!-- (part of speech) -->
+                                           
                                             Pronoun
                                         </span>
                                         <div>
                                             <span class="grey-text">1.</span> <span>I; Me</span>
                                             <span class="grey-text text-lighten-1 definitionTags">
-                                                <!-- tags -->
+                                                 
                                                 Male term or language
                                             </span>
                                         </div>
                                     </div>
-                                    <!-- another element-->
+                                  
                                     <div class="col s12 definition">
                                         <div class="grey-text text-darken-1">
-                                            <!-- (part of speech) -->
+                                          
                                             Pronoun
                                         </div>
                                         <div>
                                             <span class="grey-text">2.</span> <span>You</span>
                                             <span class="grey-text text-lighten-1 definitionTags">
-                                                <!-- infos -->
+                                               
                                                 when addressing a young boy
                                             </span>
                                         </div>
                                     </div>
-                                    <!-- another element-->
+                                   
                                     <div class="col s12 definition">
                                         <div class="grey-text text-darken-1">
-                                            <!-- (part of speech) -->
+                                          
                                             Pronoun
                                         </div>
                                         <div>
                                             <span class="grey-text">3.</span> <span>manservant</span>
                                             <span class="grey-text text-lighten-1 definitionTags">
-                                                <!-- also see -->
+                                                
                                                 <span>Also See</span> <a href="#">しもべ</a>
                                             </span>
                                         </div>
@@ -111,14 +105,14 @@
                                 </div>
                                 <hr class="col s12 divider">
                             </div>
-
-
                         </div>
-                    </div>
+                    </div> -->
 
 
                 </div>
             </div>
+            <a class="btn waves-effect waves-light indigo" id="showMoreButton">Show More Results</a>
+
         </div>
     </div>
 </body>
