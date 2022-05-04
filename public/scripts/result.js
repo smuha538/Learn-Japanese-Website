@@ -98,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
             {
                 other += definitions.japanese[i].word + " [" + definitions.japanese[i].reading + "], ";
             }
+            other = other.slice(0, -2)
             let otherForm = createSpan(other, "grey-text otherForm");
             appendToElement(otherForm, row);
         }
@@ -137,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 let fieldSection = "";
                 if(property  == "see_also" && definition[property] != "")
                 {
-                    fieldSection =  createSpan(`See Also, ${definition[property]}`, "grey-text text-lighten-1 definitionTags seeAlso");
+                    fieldSection =  createSpan(`See Also: ${definition[property]}`, "grey-text text-lighten-1 definitionTags seeAlso");
                 }
                 else if(property == "links" && definition[property] != "")
                 {
