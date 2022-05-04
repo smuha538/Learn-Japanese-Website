@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let other =  "Other Forms: ";
             for(let i = 1; i < definitions.japanese.length; i++)
             {
-                other += definitions.japanese[i].word + ", [" + definitions.japanese[i].reading + "], ";
+                other += definitions.japanese[i].word + " [" + definitions.japanese[i].reading + "], ";
             }
             let otherForm = createSpan(other, "grey-text otherForm");
             appendToElement(otherForm, row);
