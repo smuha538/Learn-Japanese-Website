@@ -91,6 +91,17 @@ document.addEventListener("DOMContentLoaded", () => {
             counter++;
         });
 
+        if(definitions.japanese.length > 1)
+        {
+            let other =  "Other Forms: ";
+            for(let i = 1; i < definitions.japanese.length; i++)
+            {
+                other += definitions.japanese[i].word + ", [" + definitions.japanese[i].reading + "]";
+            }
+            let otherForm = createSpan(other, "grey-text otherForm");
+            appendToElement(otherForm, row);
+        }
+         
         let divider = createDivider("col s12 divider");
         appendToElement(row, definitionSection);
         appendToElement(divider, definitionSection);

@@ -20,6 +20,10 @@ body {
   font-size: xx-large;
 }
 
+.otherForm {
+  margin-left: 3%;
+}
+
 h5 {
   margin-left: 1rem;
   margin-top: 2rem;
@@ -122,6 +126,11 @@ h5 {
     width: 28% !important;
     margin-right: 5px !important;
   }
+
+  .otherForm {
+    margin-left: 4%;
+  }
+  
 
   hr{
     width: 95% !important;
