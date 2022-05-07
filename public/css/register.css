@@ -1,0 +1,60 @@
+body {
+  /* https://unsplash.com/photos/SBK40fdKbAg */
+  background-image: url("../images/registerimage.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 50% 30%;
+}
+
+.col.s12 > .btn {
+    width: 100%;
+  }
+
+.container{
+  margin-top: 1%;
+  width: 40%;
+  border-radius: 10px;
+}
+  
+  .validateIcon {
+    right: 0;
+  }
+  
+  .errorIcon {
+    color: red;
+  }
+  
+  .checkIcon {
+    color: blue;
+  }
+  
+  .visibleIcon {
+    right: -1;
+    cursor: pointer;
+  }
+  
+  #movePassword {
+    margin-top: 1px !important;
+  }
+  
+  #moveConfirm {
+    margin-top: 2px !important;
+  }
+  
+  #moveEmail {
+    margin-top: 1px !important;
+  }
+  
+  .shift {
+    margin-left: 2px !important;
+  }
+  
+@media screen and (max-width: 600px) 
+{
+    
+  .container{
+    margin-top: 4%;
+    width: 80%;
+  }
+}
