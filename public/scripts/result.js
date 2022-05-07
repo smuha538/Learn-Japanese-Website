@@ -6,11 +6,19 @@ document.addEventListener("DOMContentLoaded", () => {
     
     if(keyword != "")
     {
+        loadingAnimation();
         searchKeyword(keyword, page);
     }
     else
     {
         noResult();
+    }
+
+    function loadingAnimation()
+    {
+        let loadingGif = document.createElement("img");
+        loadingGif.src = "./images/loadingGif.gif"
+        appendToElement(loadingGif, resultSection);
     }
 
     function noResult()
@@ -38,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function validateData(data, page)
     {
+        clearChild(resultSection);
         if(data.length == 0 && page == 1)
         {
             noResult();
