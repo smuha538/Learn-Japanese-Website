@@ -1,0 +1,79 @@
+body{
+
+    background-image: url("../images/loginimage.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 50% 20%;
+}
+
+body .container{
+    margin-top: 11%;
+}
+
+#mainRow{
+    width: 70%;
+}
+
+#loginButton{
+    width: 80%;
+}
+
+#loginSection{
+    margin-top: 1rem;
+    margin-left: 7%;
+}
+
+
+#registerSection{
+    height: 47vh;
+}
+
+#registrationMessage{
+    font-size: x-large;
+    font-family: Bungee Inline;
+}
+
+#registerContainer{
+    margin-top: 5%;
+}
+
+#iconSection{
+    margin-top: 15%;
+}
+
+@media screen and (max-width: 1440px) 
+{
+    #registerSection{
+        height: 29vh;
+    }
+
+}
+
+@media screen and (max-width: 600px) 
+{
+    #iconSection{
+        margin-top: 10%;
+    }
+
+    #registerContainer{
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+
+    #loginButton{
+        width: 100%;
+    }
+
+    #loginSection{
+        margin-left: 0;
+    }
+
+    #registerSection{
+        height: 10%;
+    }
+
+    #registrationMessage{
+        font-size: larger;
+    }
+}

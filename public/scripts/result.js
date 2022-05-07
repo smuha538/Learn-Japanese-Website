@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function createDefinitionSection(definitions)
     {
         let definitionSection = createDiv("col s12 l7 definitionSection");
-        let row = createDiv("row");
+        let row = createDiv("row defRow");
         let counter = 1;
         
         definitions.senses.forEach((definition) => {

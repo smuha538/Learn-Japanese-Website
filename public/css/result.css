@@ -130,6 +130,10 @@ h5 {
   .otherForm {
     margin-left: 4%;
   }
+
+  .defRow{
+    width: 90%;
+  }
   
 
   hr{

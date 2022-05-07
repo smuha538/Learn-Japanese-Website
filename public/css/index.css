@@ -1,4 +1,3 @@
-
 body {
     /* https://unsplash.com/photos/SBK40fdKbAg */
     background-image: url("../images/homeimage.jpg");
@@ -7,6 +6,7 @@ body {
     background-attachment: fixed;
     background-position: 50% 20%;
   }
+  
 .container{
     width: 50%;
 }
