@@ -26,7 +26,7 @@ body .container{
 
 
 #registerSection{
-    height: 50vh;
+    height: 47vh;
 }
 
 #registrationMessage{
@@ -50,7 +50,7 @@ body .container{
 @media screen and (max-width: 1440px) 
 {
     #registerSection{
-        height: 31vh;
+        height: 29vh;
     }
 
 }
