@@ -1,4 +1,15 @@
-<?php require "../partials/header.php"; ?>
+<?php
+require "../partials/header.php";
+
+function displayError()
+{
+    if (isset($_GET["error"])) {
+        if ($_GET["error"] == "invalid") {
+            echo "<span class='col s12 red-text error'>Incorrect email or password</span>";
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,7 +35,7 @@
                 </div>
             </div>
             <div class="col s12 l7 white">
-                <form action="./formHandler.php" method="post" name="login" onsubmit="return emptyForm()">
+                <form action="./loginhandler.php" method="post" name="login" onsubmit="return emptyForm()">
                     <div class="container">
                         <h4 class="center-align" style="font-weight:bold">Login</h4>
                         <div class="row">
@@ -39,6 +50,7 @@
                                 <input id="password" type="password" name="password">
                                 <label for="password">Password</label>
                                 <span class="helper-text red-text hide left-align" id="passwordHelper">Enter your password</span>
+                                <?= displayError() ?>
                             </div>
                             <div class="col s12 center-align" id="loginSection">
                                 <button class="btn waves-effect waves-light indigo " id="loginButton" type="submit" name="action">Login</button>

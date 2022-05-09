@@ -24,6 +24,11 @@ body {
   .errorIcon {
     color: red;
   }
+
+  .error{
+    margin-left: 6% !important;
+    font-size: small !important;
+  }
   
   .checkIcon {
     color: blue;
@@ -56,5 +61,10 @@ body {
   .container{
     margin-top: 4%;
     width: 80%;
+  }
+
+  .error{
+    margin-left: 12% !important;
+    font-size: smaller !important;
   }
 }

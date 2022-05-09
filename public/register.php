@@ -1,4 +1,15 @@
-<?php require "../partials/header.php"; ?>
+<?php
+require "../partials/header.php";
+
+function displayError()
+{
+    if (isset($_GET["error"])) {
+        if ($_GET["error"] == "exists") {
+            echo "<span class='col s12 red-text error'>Email already exists</span>";
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,7 +30,7 @@
                 <h4 class="center-align">Create Account</h4>
             </div>
 
-            <form class="col s12" method="post" action="./registerHandler.php">
+            <form class="col s12" method="post" action="./registerhandler.php">
                 <div class="row">
                     <div class="input-field col s6">
                         <input id="first_name" type="text" class="validate" name="first_name" value="<?= $_SESSION["tempFirstName"] ?? "" ?>">
@@ -41,6 +52,7 @@
                         <label for="email">Email</label>
                         <i class="material-icons prefix validateIcon" id="emailIcon"></i>
                         <span class="helper-text" id="emailHelper"></span>
+                        <?= displayError() ?>
                     </div>
                 </div>
                 <div class="row">

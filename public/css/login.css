@@ -26,7 +26,7 @@ body .container{
 
 
 #registerSection{
-    height: 47vh;
+    height: 50vh;
 }
 
 #registrationMessage{
@@ -38,6 +38,11 @@ body .container{
     margin-top: 5%;
 }
 
+.error{
+    margin-left: 12% !important;
+    font-size: small !important;
+}
+
 #iconSection{
     margin-top: 15%;
 }
@@ -45,7 +50,7 @@ body .container{
 @media screen and (max-width: 1440px) 
 {
     #registerSection{
-        height: 29vh;
+        height: 31vh;
     }
 
 }
@@ -75,5 +80,10 @@ body .container{
 
     #registrationMessage{
         font-size: larger;
+    }
+
+    .error{
+        margin-left: 14% !important;
+        font-size: smaller !important;
     }
 }
