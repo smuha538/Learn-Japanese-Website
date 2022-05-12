@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
     {
       if(deck.lenght != 0)
       {
-        console.log(deck);
+        deck.forEach(test => console.log(test));
       }
     }
   });
