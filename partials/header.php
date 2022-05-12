@@ -31,6 +31,7 @@ function createAllItems($loggedIn)
     $completedItem .= createNavItem('./about.php', 'About');
     $completedItem .= createNavItem('./translator.php', 'Translator');
     $completedItem .= createNavItem('./flashcard.php', 'Flashcard');
+    $completedItem .= createNavItem('./review.php', 'Review');
     $completedItem .= createNavItem('./logout.php', 'Log out', 'logout');
   } else {
     $completedItem .= createNavItem('./index.php', 'Home');

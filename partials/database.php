@@ -1,8 +1,7 @@
 <?php
 require "../vendor/autoload.php";
 
-$server = $_ENV['MONGODB_URI'] ?? '';
-// $server = "mongodb+srv://databaseConnector:wSb7XnA0keBnIhuc@userdatacluster.adumz.mongodb.net/Data?retryWrites=true";
+$server = $_ENV['MONGODB_URI'] ?? "mongodb://localhost:27017";
 
 $client = new MongoDB\Client($server);
 $data = $client->Data;
