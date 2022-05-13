@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+
     let keyword = sessionStorage.getItem("keyword");    ;
     let page = sessionStorage.getItem("page");
     let resultSection = document.querySelector("#resultSection");
@@ -71,10 +71,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function clearChild(section)
-    {
-        section.replaceChildren();
-    }
+    // function clearChild(section)
+    // {
+    //     section.replaceChildren();
+    // }
 
     function createResultSection(keyword)
     {
@@ -119,12 +119,12 @@ document.addEventListener("DOMContentLoaded", () => {
         return definitionSection;
     }
 
-    function createDivider(classes)
-    {
-        let divider = document.createElement("hr");
-        divider.setAttribute("class", classes);
-        return divider;
-    }
+    // function createDivider(classes)
+    // {
+    //     let divider = document.createElement("hr");
+    //     divider.setAttribute("class", classes);
+    //     return divider;
+    // }
 
     function createDefinitionEntry(definition, counter)
     {
@@ -243,23 +243,23 @@ document.addEventListener("DOMContentLoaded", () => {
         return insertToDeck;
     }
 
-    function createIcon(icon, classes)
-    {
-        let iconSection = document.createElement("i");
-        iconSection.textContent = icon;
-        iconSection.setAttribute("class", classes);
-        return iconSection;
-    }
+    // function createIcon(icon, classes)
+    // {
+    //     let iconSection = document.createElement("i");
+    //     iconSection.textContent = icon;
+    //     iconSection.setAttribute("class", classes);
+    //     return iconSection;
+    // }
 
-    function createHref(reference = null)
-    {
-        let ref = document.createElement("a");
-        if(reference)
-        {
-            ref.href = reference;
-        }
-        return ref;
-    }
+    // function createHref(reference = null)
+    // {
+    //     let ref = document.createElement("a");
+    //     if(reference)
+    //     {
+    //         ref.href = reference;
+    //     }
+    //     return ref;
+    // }
 
     function isLoggedIn()
     {
@@ -270,36 +270,36 @@ document.addEventListener("DOMContentLoaded", () => {
         return string.charAt(0).toUpperCase() + string.slice(1);
       }
 
-    function createDiv(classes = null, data = null)
-    {
-        let div = document.createElement("div");
-        if(classes)
-        {
-            div.setAttribute("class", classes);
-        }
-        if(data)
-        {
-            div.textContent = data;
-        }
-        return div;
-    }
+    // function createDiv(classes = null, data = null)
+    // {
+    //     let div = document.createElement("div");
+    //     if(classes)
+    //     {
+    //         div.setAttribute("class", classes);
+    //     }
+    //     if(data)
+    //     {
+    //         div.textContent = data;
+    //     }
+    //     return div;
+    // }
 
-    function createSpan(entry, classes, tags = false)
-    {
-        let span = document.createElement("span");
-        tags ? span.textContent = capitaliseFirstLetter(entry) : span.textContent = entry;
-        if(classes)
-        {
-          span.setAttribute("class", classes);  
-        }
+    // function createSpan(entry, classes, tags = false)
+    // {
+    //     let span = document.createElement("span");
+    //     tags ? span.textContent = capitaliseFirstLetter(entry) : span.textContent = entry;
+    //     if(classes)
+    //     {
+    //       span.setAttribute("class", classes);  
+    //     }
         
-        return span;
-    }
+    //     return span;
+    // }
 
-    function appendToElement(appender, appendTo)
-    {
-        appendTo.appendChild(appender);
-    }
+    // function appendToElement(appender, appendTo)
+    // {
+    //     appendTo.appendChild(appender);
+    // }
 
     function showMore()
     {
@@ -312,6 +312,3 @@ document.addEventListener("DOMContentLoaded", () => {
     showMoreButton.addEventListener("click", () => {
         showMore();
     });
-
-});
-

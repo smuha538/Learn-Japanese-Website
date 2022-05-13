@@ -5,7 +5,7 @@
 <head>
     <?= require "../partials/headtags.php" ?>
     <link rel="stylesheet" href="./css/result.css" />
-    <script src="./scripts/result.js"></script>
+
     <title>Search Results</title>
 </head>
 
@@ -29,6 +29,8 @@
             <a class="btn waves-effect waves-light indigo" id="showMoreButton">Show More Results</a>
         </div>
     </div>
+    <script src="./scripts/creatorhelpers.js"></script>
+    <script src="./scripts/result.js"></script>
 </body>
 
 </html>

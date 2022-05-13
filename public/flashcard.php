@@ -15,7 +15,6 @@ if (!isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] != 1) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/flashcard.css">
-    <script src="./scripts/flashcard.js"></script>
     <title>Flashcard</title>
 </head>
 
@@ -26,24 +25,34 @@ if (!isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] != 1) {
             <div class="col s12 center-align">
                 <h3 class="">Flashcard</h3>
             </div>
-
-            <?php
-            echo addDeck();
-            echo listDeck();
-            ?>
+            <?= addDeck() ?>
+            <div class='col s12' id="headers">
+                <div class='row'>
+                    <span class='col s2 deckTitle'>Deck</span>
+                    <span class='col s2 offset-s1'>Review</span>
+                    <span class='col s2 offset-s1'>Cards</span>
+                    <span class='col s2 offset-s1'>Delete</span>
+                </div>
+            </div>
+            <div class='col s12'>
+                <div class='row' id='decks'></div>
+            </div>
             <div id="modal1" class="modal">
                 <div class="modal-content center-align">
                     <h4>Create a New Deck</h4>
                     <label for="deckName"></label>
                     <input type="text" id="deckName" placeholder="Enter Deck Name">
+                    <span class="helper-text red-text" id="deckHelper"></span>
                 </div>
                 <div class="modal-footer">
-                    <a class="modal-close waves-effect waves-green btn-flat">Cancel</a>
-                    <a class="modal-close waves-effect waves-green btn-flat" id="createButton">Create</a>
+                    <a class="modal-close waves-effect waves-green btn-flat" id="deckCancelButton">Cancel</a>
+                    <a class="waves-effect waves-green btn-flat" id="deckCreateButton">Create</a>
                 </div>
             </div>
         </div>
     </div>
+    <script src="./scripts/creatorhelpers.js"></script>
+    <script src="./scripts/flashcard.js"></script>
 </body>
 
 </html>

@@ -15,11 +15,13 @@ if (!empty($_POST["first_name"]) && !empty($_POST["last_name"]) && !empty($_POST
             "first_name" => $first_name,
             "last_name" => $last_name,
             "email" => $email,
-            "password" => $password
+            "password" => $password,
+            "decks" => []
         ]);
 
         $_SESSION["loggedIn"] = true;
         $_SESSION["userId"] = $createNewUser->getInsertedId();
+        $_SESSION["decks"] = [];
         header("Location: ./index.php");
     } else {
         $_SESSION["tempFirstName"] = $_POST["first_name"];

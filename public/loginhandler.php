@@ -19,6 +19,8 @@ if (isset($_POST["action"])) {
         if (password_verify($password, $hash)) {
             $_SESSION["loggedIn"] = true;
             $_SESSION["userId"] = $exists->_id;
+            $decks = json_decode(json_encode($exists->decks), true);
+            $_SESSION["decks"] = $decks;
             header("Location: ./index.php");
         } else {
             header("Location: ./login.php?error=invalid");
