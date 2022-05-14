@@ -23,3 +23,39 @@ body{
     margin-top: 2%;
     margin-bottom: 2%;
 }
+
+#viewModal{
+    width: 70%;
+}
+
+@media screen and (max-width: 600px) 
+{
+    #viewModal .row{
+        font-size: 10px;
+    }
+
+    #viewModal
+    {
+        width: 95%;
+    }
+
+    .cardStatus
+    {
+        font-size: 8px;
+    }
+
+    .reviewButton
+    {
+        font-size: 5px;
+    }
+
+    .view
+    {
+        font-size: 6px;
+    }
+
+    .removeCard
+    {
+        font-size: 5px;
+    }
+}

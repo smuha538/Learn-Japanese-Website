@@ -3,11 +3,15 @@ document.addEventListener('DOMContentLoaded', function() {
     let elems = document.querySelectorAll('.modal');
     let instances = M.Modal.init(elems);
     let deckBar = document.querySelector("#deckName");
-    let createDeck = document.querySelector('#modal1');
+    let createDeck = document.querySelector('#deckModal');
     let deckInstance = M.Modal.getInstance(createDeck);
-    const addDeckButton = document.querySelector('#addButton');
+    let viewDeck = document.querySelector('#viewModal');
+    let viewInstance = M.Modal.getInstance(viewDeck);
+    let addDeckButton = document.querySelector('#addButton');
     let deckSection = document.querySelector('#decks');
-    let deckHelper = document.querySelector('#deckHelper')
+    let deckHelper = document.querySelector('#deckHelper');
+    let cardSection = document.querySelector('#cardSection');
+    let deckArray = [];
 
     addDeckButton.addEventListener('click', () => {
       deckBar.value = "";
@@ -30,7 +34,105 @@ document.addEventListener('DOMContentLoaded', function() {
       {  
         deleteDeck(e.target.dataset.name);
       }
+      else if(e.target && e.target.classList == "col s2 offset-s1 btn btn-small purple waves-effect waves-light view")
+      {
+        viewCards(e.target.dataset.name);
+      }
     });
+
+    function viewCards(deckName)
+    {
+      viewInstance.open();
+      let deck = deckArray.find((array) => array["name"] == deckName);
+      let cards = deck["cards"];
+      clearChild(cardSection);
+      if(cards.length != 0)
+      {
+        cards.forEach((card) => {
+        let entry = createCard(card);
+        appendToElement(entry, cardSection);
+        }); 
+      }
+      else
+      {
+        let errorDiv = createDiv("col s12 center-align");
+        let errorMessage = "No Cards"
+        appendToElement(errorMessage, errorDiv);
+        appendToElement(errorDiv, cardSection);
+      }
+    }
+
+    function createCard(card)
+    {
+      let main = createDiv("col s12");
+      let row = createDiv("row");
+      let japaneseWords = createSpan(card["japanese"].join("; "), "col l4 s3 truncate");
+      let englishWords = createSpan(card["english"].join("; "), "col l4 s2 truncate");
+      let learned = cardLearned(card);
+      let review = reviewDate(card);
+      let deleteIcon = removeCardIcon();
+      appendToElement(japaneseWords, row);
+      appendToElement(englishWords, row);
+      appendToElement(learned, row);
+      appendToElement(review, row);
+      appendToElement(deleteIcon, row);
+      appendToElement(row, main);
+      return main;
+    }
+
+    function removeCardIcon()
+    {
+      let iconSection = createDiv("col l1 s1");
+      let ref = createHref(null, null, "btn-floating btn-small waves-effect waves-light red removeCard");
+      let icon = createIcon("remove", "material-icons");
+      appendToElement(icon, ref);
+      appendToElement(ref, iconSection);
+      return iconSection;
+    }
+
+    function reviewDate(card)
+    {
+      let today = new Date();
+      let cardDate = new Date(card["review_date"]);
+      let diffTime = cardDate - today;
+      let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+      let practice;
+      if(diffDays < 0)
+      {
+        practice = recalibrateDate(card);
+      }
+      else if(diffDays == 0)
+      {
+        practice = "Today";
+      }
+      else if(diffDays == 1)
+      {
+        practice = "Tommorow";
+      }
+      else
+      {
+        practice = diffDays + " days";
+      }
+
+      let review = createSpan(practice, "col l2 s3");
+
+      console.log(diffDays + " days");
+      return review;
+      
+    }
+
+    function recalibrateDate(card)
+    {
+      
+    }
+
+    function cardLearned(card)
+    {
+      let learned;
+      card["learned"] == true ? learned = "learned" : learned = "learn"
+      let learnedSection = createHref(null, learned, "col l1 s2 btn-small cardStatus");
+      return learnedSection;
+    }
 
     function deleteDeck(name)
     {
@@ -89,6 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if(decks.length != 0)
       {
         decks.forEach(deck => {
+          deckArray.push(deck);
           let entry = createEntry(deck);
           appendToElement(entry, deckSection);
         });
@@ -103,20 +206,24 @@ document.addEventListener('DOMContentLoaded', function() {
     function createEntry(deck)
     {
       let main = createDiv("col s12 shift");
+      let row = createDiv("row");
       main.dataset.name = deck["name"] +"Section";
       let title = createSpan(deck["name"], "col s2 deckTitle");
       let review = createReviewSection(deck);
-      let viewCard = createHref(null, "View", "col s2 offset-s1 btn btn-small purple waves-effect waves-light");
+      review.dataset.name = deck["name"];
+      let viewCard = createHref(null, "View", "col s2 offset-s1 btn btn-small purple waves-effect waves-light view");
+      viewCard.dataset.name = deck["name"];
       let deleteDiv = createDiv("col s2 offset-s1");
       let deleteRef = createHref(null, null, "btn-floating btn-small waves-effect waves-light red delete");
       let deleteIcon = createIcon("delete", "material-icons remove");
       deleteIcon.dataset.name = deck["name"];
       appendToElement(deleteIcon, deleteRef);
       appendToElement(deleteRef, deleteDiv);
-      appendToElement(title, main);
-      appendToElement(review, main);
-      appendToElement(viewCard, main);
-      appendToElement(deleteDiv, main);
+      appendToElement(title, row);
+      appendToElement(review, row);
+      appendToElement(viewCard, row);
+      appendToElement(deleteDiv, row);
+      appendToElement(row, main);
 
       return main;
     
@@ -124,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function createReviewSection(deck)
     {
-      let reviewClasses = "col s2 offset-s1 btn btn-small purple waves-effect waves-light";
+      let reviewClasses = "col s2 offset-s1 btn btn-small purple waves-effect waves-light reviewButton";
       let reviewText = "Lets Review";
       if(deck["complete"])
       {

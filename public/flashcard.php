@@ -37,7 +37,7 @@ if (!isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] != 1) {
             <div class='col s12'>
                 <div class='row' id='decks'></div>
             </div>
-            <div id="modal1" class="modal">
+            <div id="deckModal" class="modal">
                 <div class="modal-content center-align">
                     <h4>Create a New Deck</h4>
                     <label for="deckName"></label>
@@ -47,6 +47,35 @@ if (!isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] != 1) {
                 <div class="modal-footer">
                     <a class="modal-close waves-effect waves-green btn-flat" id="deckCancelButton">Cancel</a>
                     <a class="waves-effect waves-green btn-flat" id="deckCreateButton">Create</a>
+                </div>
+            </div>
+            <div id="viewModal" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                    <h3>Cards</h3>
+                    <div class="row" style="margin-top: 2rem; font-weight:bold;">
+                        <span class="col l4 s3">Japanese</span>
+                        <span class="col l4 s2">English</span>
+                        <span class="col l1 s2">Status</span>
+                        <span class="col l2 s3">Review In</span>
+                        <span class="col l1 s1">Remove</span>
+                    </div>
+                    <div id="cardSection" class="row" style="margin-top: 1rem;">
+                        <div class="col s12">
+                            <div class="row">
+                                <span class="col l4 s3 truncate">Japanese</span>
+                                <span class="col l4 s2 truncate">English</span>
+                                <a class="col l1 s2 btn-small cardStatus">Learned</a>
+                                <span class="col l2 s3">Tommorow</span>
+                                <div class="col l1 s1">
+                                    <a class="btn-floating btn-small waves-effect waves-light red removeCard"><i class='material-icons'>remove</i></a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
                 </div>
             </div>
         </div>
