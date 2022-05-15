@@ -3,6 +3,7 @@
     let page = sessionStorage.getItem("page");
     let resultSection = document.querySelector("#resultSection");
     let showMoreButton = document.querySelector("#showMoreButton");
+    let deckSelect = document.querySelector("#deckSelect");
     
     if(keyword != "")
     {
@@ -65,19 +66,19 @@
     function displayResults(data)
     {
         clearChild(resultSection);
+        if(sessionStorage.getItem("cardWord"))
+        {
+            sessionStorage.removeItem("cardWord");
+        }
         data.forEach((word) => {
             let result = createResultSection(word);
             appendToElement(result, resultSection);
         });
     }
 
-    // function clearChild(section)
-    // {
-    //     section.replaceChildren();
-    // }
-
     function createResultSection(keyword)
     {
+        addToStorage(keyword);
         let resultDiv = createDiv("col s12 result");
         let row = createDiv("row");
         appendToElement(row, resultDiv);
@@ -86,6 +87,30 @@
         let definitionSection = createDefinitionSection(keyword);
         appendToElement(definitionSection, row);
         return resultDiv;
+    }
+
+    function addToStorage(keyword)
+    {
+        let english = "";
+        let cardArray;
+        keyword.senses.forEach((englishWord) => {
+            english += englishWord.english_definitions.join("; ") + ", ";
+        })
+        english = english.slice(0, -2);
+        let cardWord = {
+            "name": keyword.senses[0].english_definitions.join("; "),
+            "japanese": {
+                "kanji": keyword.japanese[0].word,
+                "furigana": keyword.japanese[0].reading
+            },
+            "english": english
+        };
+
+        sessionStorage.getItem("cardWord") != null ? cardArray = JSON.parse(sessionStorage.getItem("cardWord")) : cardArray = [];
+        cardArray.push(cardWord);
+        
+        sessionStorage.setItem("cardWord", JSON.stringify(cardArray));
+    
     }
 
     function createDefinitionSection(definitions)
@@ -119,12 +144,6 @@
         return definitionSection;
     }
 
-    // function createDivider(classes)
-    // {
-    //     let divider = document.createElement("hr");
-    //     divider.setAttribute("class", classes);
-    //     return divider;
-    // }
 
     function createDefinitionEntry(definition, counter)
     {
@@ -178,8 +197,7 @@
                 {
                     appendToElement(fieldSection, englishSection);
                 }
-                
-                
+                    
             }
         }
 
@@ -223,83 +241,38 @@
 
         appendToElement(tag, tagSection);
 
-        if(isLoggedIn())
+        if(document.querySelector("#logged") != null)
         {
-            insert = insertOption();
+            insert = insertOption(keyword);
             appendToElement(insert, tagSection);
         }
         return tagSection;
     }
 
-    function insertOption()
+    function insertOption(keyword)
     {
-        let insertToDeck = createDiv("addTocard blue z-depth-2 col s2 l6");
-        let href = createHref();  
-        let message = createSpan("Add to Deck", "addMessage white-text");
-        let icon = createIcon("add_circle", "material-icons addButton white-text");
-        appendToElement(message, href);
+        let insertToDeck = createDiv("addToCard grey z-depth-2 col s2 l6");
+        let href = createHref(null, null, "btn-floating btn-small waves-effect waves-light green disabled addButton");  
+        let message = createSpan("Select a Deck", "addMessage white-text");
+        let icon = createIcon("add", "material-icons addIcon");
+        icon.dataset.name = keyword.senses[0].english_definitions.join("; ");
+        appendToElement(message, insertToDeck);
         appendToElement(icon, href);
         appendToElement(href, insertToDeck);
+        if(isSelected(deckSelect))
+        {
+            insertToDeck.classList.add("blue");
+            insertToDeck.classList.remove("grey");
+            href.classList.remove("disabled");
+            message.textContent = "Add to Deck";
+        }
         return insertToDeck;
     }
 
-    // function createIcon(icon, classes)
-    // {
-    //     let iconSection = document.createElement("i");
-    //     iconSection.textContent = icon;
-    //     iconSection.setAttribute("class", classes);
-    //     return iconSection;
-    // }
-
-    // function createHref(reference = null)
-    // {
-    //     let ref = document.createElement("a");
-    //     if(reference)
-    //     {
-    //         ref.href = reference;
-    //     }
-    //     return ref;
-    // }
-
-    function isLoggedIn()
-    {
-        return false
-    }
 
     function capitaliseFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
       }
-
-    // function createDiv(classes = null, data = null)
-    // {
-    //     let div = document.createElement("div");
-    //     if(classes)
-    //     {
-    //         div.setAttribute("class", classes);
-    //     }
-    //     if(data)
-    //     {
-    //         div.textContent = data;
-    //     }
-    //     return div;
-    // }
-
-    // function createSpan(entry, classes, tags = false)
-    // {
-    //     let span = document.createElement("span");
-    //     tags ? span.textContent = capitaliseFirstLetter(entry) : span.textContent = entry;
-    //     if(classes)
-    //     {
-    //       span.setAttribute("class", classes);  
-    //     }
-        
-    //     return span;
-    // }
-
-    // function appendToElement(appender, appendTo)
-    // {
-    //     appendTo.appendChild(appender);
-    // }
 
     function showMore()
     {
@@ -312,3 +285,73 @@
     showMoreButton.addEventListener("click", () => {
         showMore();
     });
+
+    function deckInsertion(deckName)
+    {
+        let addButtons = document.querySelectorAll(".addButton");
+        let addMessages = document.querySelectorAll(".addMessage");
+        let addDiv = document.querySelectorAll(".addToCard");
+        if(isSelected(deckName))
+        {
+            enableDeckInsertion(addButtons, addMessages, addDiv)
+        }
+    }
+
+    function enableDeckInsertion(buttons, messages, divs)
+    {
+        buttons.forEach((button) => {
+            button.classList.remove("disabled");
+        });
+
+        messages.forEach((message) => {
+            message.textContent = "Add to Deck";
+        });
+
+        divs.forEach((div) => {
+            div.classList.add("blue");
+            div.classList.remove("grey");
+        });
+    }
+
+    function isSelected(deckName)
+    {
+        return deckName.value ? true : false;
+    }
+
+    function addToDeck(cardName)
+    {
+        let cardArray = JSON.parse(sessionStorage.getItem("cardWord"));
+        let selectedCard;
+        cardArray.forEach((card) => {
+            if(card["name"] == cardName)
+            {
+                selectedCard = card;
+            }
+        });
+        addToAccount(selectedCard, deckSelect.value);
+    }
+
+    function addToAccount(card, deck)
+    {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', 'addcard.php?card='+ JSON.stringify(card)+"&deck="+deck, true);
+        xhr.send();
+    }
+
+    function updateInsertButton()
+    {
+
+    }
+
+    deckSelect.addEventListener("click", (e) =>
+    {
+        deckInsertion(e.target);
+    });
+
+    document.addEventListener("click", (e) => {
+
+        if(e.target && e.target.classList == "material-icons addIcon")
+        {
+            addToDeck(e.target.dataset.name)
+        }
+    })

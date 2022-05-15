@@ -1,10 +1,20 @@
 <?php
 require "../vendor/autoload.php";
-
+session_start();
 $users = require "../partials/database.php";
-$exists = $users->findOne(
-    ["email" => "simon@gmail.com"]
-);
+$user = $users->findOne(array("_id" => $_SESSION["userId"]));
+$decks = json_decode(json_encode($user->decks), true);
+$id = "";
+foreach ($decks as $key => $value) {
+    foreach ($value as $property => $name) {
+        if ($name == "super") {
+            $id = $key;
+        }
+    }
+}
 
 
-var_dump($exists->_id);
+
+
+$users->updateOne(array("_id" => $_SESSION["userId"]), array('$addToSet' => array("decks.0.cards" => "dadwa")));
+var_dump($id);

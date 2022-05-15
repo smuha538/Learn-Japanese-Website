@@ -14,7 +14,7 @@ if (isset($_GET["deck"]) && $_GET["deck"] != "") {
         echo json_encode([]);
     } else {
         $users = require "../partials/database.php";
-        $new_deck = ["name" => $deck_name, "cards" => [["english" => ["man", "hand"], "japanese" => ["一人暮らし"], "difficultly_level" => "", "review_date" => "5-20-2022", "reviewed" => false, "learned" => false]], "complete" => false, "complete_date" => ""];
+        $new_deck = ["name" => $deck_name, "cards" => [], "complete" => false, "complete_date" => ""];
         $users->updateOne(array("_id" => $_SESSION["userId"]), array('$addToSet' => array("decks" => $new_deck)));
         $deck[] = $new_deck;
         $_SESSION["decks"] = $deck;

@@ -1,11 +1,13 @@
-<?php require "../partials/header.php"; ?>
+<?php
+require "../partials/header.php";
+require "../partials/resulthelper.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <?= require "../partials/headtags.php" ?>
     <link rel="stylesheet" href="./css/result.css" />
-
     <title>Search Results</title>
 </head>
 
@@ -18,9 +20,12 @@
                     <div class="col s7">
                         <h5>Results</h5>
                     </div>
-                    <!-- <div class="col s3">
-                        Select Your Deck
-                    </div> -->
+
+                    <?php
+                    if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == 1) {
+                        echo selectDeck();
+                    }
+                    ?>
                 </div>
             </div>
             <div class="col s12">
@@ -29,6 +34,11 @@
             <a class="btn waves-effect waves-light indigo" id="showMoreButton">Show More Results</a>
         </div>
     </div>
+    <?php
+    if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == 1) {
+        echo "<div id='logged'></div>";
+    }
+    ?>
     <script src="./scripts/creatorhelpers.js"></script>
     <script src="./scripts/result.js"></script>
 </body>

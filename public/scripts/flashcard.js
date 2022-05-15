@@ -66,8 +66,10 @@ document.addEventListener('DOMContentLoaded', function() {
     {
       let main = createDiv("col s12");
       let row = createDiv("row");
-      let japaneseWords = createSpan(card["japanese"].join("; "), "col l4 s3 truncate");
-      let englishWords = createSpan(card["english"].join("; "), "col l4 s2 truncate");
+      let japanese;
+      card["japanese"]["kanji"] == "undefined" ? japanese = card["japanese"]["furigana"] : japanese = card["japanese"]["kanji"];
+      let japaneseWords = createSpan(japanese, "col l4 s3 truncate");
+      let englishWords = createSpan(card["english"], "col l4 s2 truncate");
       let learned = cardLearned(card);
       let review = reviewDate(card);
       let deleteIcon = removeCardIcon();
@@ -109,14 +111,16 @@ document.addEventListener('DOMContentLoaded', function() {
       {
         practice = "Tommorow";
       }
+      else if(card["learned"] == false)
+      {
+        practice = "Not Learned";
+      }
       else
       {
         practice = diffDays + " days";
       }
 
       let review = createSpan(practice, "col l2 s3");
-
-      console.log(diffDays + " days");
       return review;
       
     }
@@ -129,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function cardLearned(card)
     {
       let learned;
-      card["learned"] == true ? learned = "learned" : learned = "learn"
+      card["learned"] == true ? learned = "unlearn" : learned = "learn"
       let learnedSection = createHref(null, learned, "col l1 s2 btn-small cardStatus");
       return learnedSection;
     }
