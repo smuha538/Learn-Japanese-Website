@@ -4,6 +4,9 @@
     let resultSection = document.querySelector("#resultSection");
     let showMoreButton = document.querySelector("#showMoreButton");
     let deckSelect = document.querySelector("#deckSelect");
+    let storagedDecks;
+    loadDeck();
+        
     
     if(keyword != "")
     {
@@ -91,14 +94,9 @@
 
     function addToStorage(keyword)
     {
-        let english = "";
+        let english = getAllEnglish(keyword);
         let cardArray;
-        keyword.senses.forEach((englishWord) => {
-            english += englishWord.english_definitions.join("; ") + ", ";
-        })
-        english = english.slice(0, -2);
         let cardWord = {
-            "name": keyword.senses[0].english_definitions.join("; "),
             "japanese": {
                 "kanji": keyword.japanese[0].word,
                 "furigana": keyword.japanese[0].reading
@@ -249,26 +247,69 @@
         return tagSection;
     }
 
+    function loadDeck()
+    {
+      let xhr = new XMLHttpRequest();
+      xhr.open('GET', 'loaddeck.php?', true);
+      xhr.onload = function(){
+        storeDecks(JSON.parse(this.responseText));
+      }
+      xhr.send();
+    }
+
+    function storeDecks(decks)
+    {
+        storagedDecks = decks;
+    }
+
     function insertOption(keyword)
     {
+        let english = getAllEnglish(keyword);
         let insertToDeck = createDiv("addToCard grey z-depth-2 col s2 l6");
         let href = createHref(null, null, "btn-floating btn-small waves-effect waves-light green disabled addButton");  
         let message = createSpan("Select a Deck", "addMessage white-text");
         let icon = createIcon("add", "material-icons addIcon");
-        icon.dataset.name = keyword.senses[0].english_definitions.join("; ");
+        icon.dataset.name = english;
+        href.dataset.name = english;
+        insertToDeck.dataset.name = english;
+        message.dataset.name = english;
         appendToElement(message, insertToDeck);
         appendToElement(icon, href);
         appendToElement(href, insertToDeck);
         if(isSelected(deckSelect))
         {
-            insertToDeck.classList.add("blue");
-            insertToDeck.classList.remove("grey");
-            href.classList.remove("disabled");
-            message.textContent = "Add to Deck";
+            if(alreadyInserted(getAllEnglish(keyword), deckSelect.value))
+            {
+                insertToDeck.classList.add("green");
+                insertToDeck.classList.remove("grey");
+                message.textContent = "Added to Deck";
+            }
+            else{
+                insertToDeck.classList.add("blue");
+                insertToDeck.classList.remove("grey");
+                href.classList.remove("disabled");
+                message.textContent = "Add to Deck";
+            } 
         }
         return insertToDeck;
     }
 
+    function getAllEnglish(keyword)
+    {
+        let english = "";
+        keyword.senses.forEach((englishWord) => {
+            english += englishWord.english_definitions.join("; ") + ", ";
+        })
+        english = english.slice(0, -2);
+        return english;
+    }
+
+    function alreadyInserted(keyword, deck)
+    {   
+        let selectedDeck = storagedDecks.find((decks) => decks["name"] == deck);
+        let cardExists = selectedDeck["cards"].find((word) => word["english"] == keyword);
+        return cardExists ? true : false;
+    }
 
     function capitaliseFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
@@ -293,22 +334,38 @@
         let addDiv = document.querySelectorAll(".addToCard");
         if(isSelected(deckName))
         {
-            enableDeckInsertion(addButtons, addMessages, addDiv)
+            enableDeckInsertion(addButtons, addMessages, addDiv, deckName.value)
         }
     }
 
-    function enableDeckInsertion(buttons, messages, divs)
+    function enableDeckInsertion(buttons, messages, divs, deck)
     {
         buttons.forEach((button) => {
-            button.classList.remove("disabled");
+            !alreadyInserted(button.dataset.name, deck) ? button.classList.remove("disabled") : button.classList.add("disabled");  
         });
 
         messages.forEach((message) => {
-            message.textContent = "Add to Deck";
+            alreadyInserted(message.dataset.name, deck) ? message.textContent = "Added to Deck" : message.textContent = "Add to Deck";
         });
 
         divs.forEach((div) => {
-            div.classList.add("blue");
+            if(alreadyInserted(div.dataset.name, deck))
+            {
+                div.classList.add("green");
+                if(div.classList.contains("blue"))
+                {
+                    div.classList.remove("blue");
+                }
+            }
+            else 
+            {
+                div.classList.add("blue");
+                if(div.classList.contains("green"))
+                {
+                    div.classList.remove("green");
+                }
+            }
+
             div.classList.remove("grey");
         });
     }
@@ -323,7 +380,7 @@
         let cardArray = JSON.parse(sessionStorage.getItem("cardWord"));
         let selectedCard;
         cardArray.forEach((card) => {
-            if(card["name"] == cardName)
+            if(card["english"] == cardName)
             {
                 selectedCard = card;
             }
@@ -338,12 +395,28 @@
         xhr.send();
     }
 
-    function updateInsertButton()
+    function updateInsertButton(data)
     {
-
+        let dataset = `[data-name="${data}"]`;
+        let cards = document.querySelectorAll(dataset);
+        cards.forEach((card) => {
+            if(card.classList.contains("addButton"))
+            {
+                card.classList.add("disabled");
+            }
+            else if(card.classList.contains("addMessage"))
+            {
+                card.textContent = "Added to Deck";
+            }
+            else if(card.classList.contains("addToCard"))
+            {
+                card.classList.add("green");
+                card.classList.remove("blue");
+            }
+        });
     }
 
-    deckSelect.addEventListener("click", (e) =>
+    deckSelect.addEventListener("change", (e) =>
     {
         deckInsertion(e.target);
     });
@@ -352,6 +425,8 @@
 
         if(e.target && e.target.classList == "material-icons addIcon")
         {
-            addToDeck(e.target.dataset.name)
+            addToDeck(e.target.dataset.name);
+            updateInsertButton(e.target.dataset.name);
+            loadDeck();
         }
     })
