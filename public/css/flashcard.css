@@ -28,6 +28,12 @@ body{
     width: 70%;
 }
 
+.noCards{
+    margin-top: 5%;
+    font-weight: bold;
+    font-size: larger;
+}
+
 @media screen and (max-width: 600px) 
 {
     #viewModal .row{

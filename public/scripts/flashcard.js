@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let deckHelper = document.querySelector('#deckHelper');
     let cardSection = document.querySelector('#cardSection');
     let deckArray = [];
+    let currentDeck;
 
     addDeckButton.addEventListener('click', () => {
       deckBar.value = "";
@@ -38,16 +39,32 @@ document.addEventListener('DOMContentLoaded', function() {
       {
         viewCards(e.target.dataset.name);
       }
+      else if(e.target && e.target.classList == "material-icons removeCard")
+      {
+        removeCard(e.target.dataset.name);
+      }
     });
+
+    function removeCard(card)
+    {
+      let dataset = `[data-name="${card}Section"]`;
+      let cardSection = document.querySelector(dataset);
+      let xhr = new XMLHttpRequest();
+      xhr.open('GET', 'removecard.php?deck='+currentDeck+'&card='+card, true);
+      xhr.send();
+      cardSection.remove();
+    }
 
     function viewCards(deckName)
     {
       viewInstance.open();
       let deck = deckArray.find((array) => array["name"] == deckName);
+      
       let cards = deck["cards"];
       clearChild(cardSection);
       if(cards.length != 0)
       {
+        currentDeck = deckName;
         cards.forEach((card) => {
         let entry = createCard(card);
         appendToElement(entry, cardSection);
@@ -55,9 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       else
       {
-        let errorDiv = createDiv("col s12 center-align");
-        let errorMessage = "No Cards"
-        appendToElement(errorMessage, errorDiv);
+        let errorDiv = createDiv("col s12 center-align noCards", "No Cards");
         appendToElement(errorDiv, cardSection);
       }
     }
@@ -65,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function createCard(card)
     {
       let main = createDiv("col s12");
+      main.dataset.name = card["english"]+"Section";
       let row = createDiv("row");
       let japanese;
       card["japanese"]["kanji"] == "undefined" ? japanese = card["japanese"]["furigana"] : japanese = card["japanese"]["kanji"];
@@ -72,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
       let englishWords = createSpan(card["english"], "col l4 s2 truncate");
       let learned = cardLearned(card);
       let review = reviewDate(card);
-      let deleteIcon = removeCardIcon();
+      let deleteIcon = removeCardIcon(card);
       appendToElement(japaneseWords, row);
       appendToElement(englishWords, row);
       appendToElement(learned, row);
@@ -82,11 +98,12 @@ document.addEventListener('DOMContentLoaded', function() {
       return main;
     }
 
-    function removeCardIcon()
+    function removeCardIcon(card)
     {
       let iconSection = createDiv("col l1 s1");
       let ref = createHref(null, null, "btn-floating btn-small waves-effect waves-light red removeCard");
-      let icon = createIcon("remove", "material-icons");
+      let icon = createIcon("remove", "material-icons removeCard");
+      icon.dataset.name = card["english"];
       appendToElement(icon, ref);
       appendToElement(ref, iconSection);
       return iconSection;
@@ -141,11 +158,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function deleteDeck(name)
     {
       let dataset = `[data-name="${name}Section"]`;
-      let deckSection = document.querySelector(dataset);
+      let deckArea = document.querySelector(dataset);
       let xhr = new XMLHttpRequest();
       xhr.open('GET', 'deletedeck.php?deck='+name, true);
       xhr.send();
-      deckSection.remove();
+      deckArea.remove();
     }
 
     function removeDeckError()

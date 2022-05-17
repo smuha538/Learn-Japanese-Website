@@ -66,5 +66,7 @@
 
     function clearChild(section)
     {
-        section.replaceChildren();
+        if (section.firstChild) {
+         section.replaceChildren();   
+        }    
     }
