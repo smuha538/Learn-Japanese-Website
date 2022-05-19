@@ -19,6 +19,12 @@ document.addEventListener('DOMContentLoaded', function() {
       deckInstance.open();
     });
 
+    document.querySelector("#closeView").addEventListener("click", () => {
+      deckArray = [];
+      clearChild(deckSection);
+      loadDeck();
+    });
+
     loadDeck();
 
     document.querySelector("#deckCreateButton").addEventListener("click", () => {

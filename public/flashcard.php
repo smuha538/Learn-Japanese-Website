@@ -60,22 +60,10 @@ if (!isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] != 1) {
                         <span class="col l1 s1">Remove</span>
                     </div>
                     <div id="cardSection" class="row" style="margin-top: 1rem;">
-                        <div class="col s12">
-                            <div class="row">
-                                <span class="col l4 s3 truncate">Japanese</span>
-                                <span class="col l4 s2 truncate">English</span>
-                                <a class="col l1 s2 btn-small cardStatus">Learned</a>
-                                <span class="col l2 s3">Tommorow</span>
-                                <div class="col l1 s1">
-                                    <a class="btn-floating btn-small waves-effect waves-light red removeCard"><i class='material-icons'>remove</i></a>
-                                </div>
-                            </div>
-
-                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+                    <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="closeView">Close</a>
                 </div>
             </div>
         </div>
