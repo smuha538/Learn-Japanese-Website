@@ -1,2 +1,2 @@
 # Learn-Japanese-Website
-in-progress
+Link to Website: [Website Live Link](https://easyjapanese.herokuapp.com/)
