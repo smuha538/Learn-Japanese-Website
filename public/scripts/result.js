@@ -397,7 +397,7 @@
 
     function updateInsertButton(data)
     {
-        let dataset = `[data-name="${data}"]`;
+        let dataset = `[data-name='${data}']`;
         let cards = document.querySelectorAll(dataset);
         cards.forEach((card) => {
             if(card.classList.contains("addButton"))

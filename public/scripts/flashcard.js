@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function removeCard(card)
     {
-      let dataset = `[data-name="${card}Section"]`;
+      let dataset = `[data-name='${card}Section']`;
       let cardSection = document.querySelector(dataset);
       let xhr = new XMLHttpRequest();
       xhr.open('GET', 'removecard.php?deck='+currentDeck+'&card='+card, true);
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function deleteDeck(name)
     {
-      let dataset = `[data-name="${name}Section"]`;
+      let dataset = `[data-name='${name}Section']`;
       let deckArea = document.querySelector(dataset);
       let xhr = new XMLHttpRequest();
       xhr.open('GET', 'deletedeck.php?deck='+name, true);
