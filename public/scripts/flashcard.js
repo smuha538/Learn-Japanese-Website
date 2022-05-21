@@ -7,12 +7,20 @@ document.addEventListener('DOMContentLoaded', function() {
     let deckInstance = M.Modal.getInstance(createDeck);
     let viewDeck = document.querySelector('#viewModal');
     let viewInstance = M.Modal.getInstance(viewDeck);
+    let practiseModal = document.querySelector('#practiseModal');
+    let practiseInstance = M.Modal.getInstance(practiseModal);
     let addDeckButton = document.querySelector('#addButton');
     let deckSection = document.querySelector('#decks');
     let deckHelper = document.querySelector('#deckHelper');
     let cardSection = document.querySelector('#cardSection');
+    let card = document.getElementById('card');
+    let tooltips = document.querySelectorAll('.tooltipped');
+    M.Tooltip.init(tooltips, options);
     let deckArray = [];
     let currentDeck;
+
+    document.querySelector("#flip").addEventListener('click', function() {
+    card.classList.toggle('flipped');}, false);
 
     addDeckButton.addEventListener('click', () => {
       deckBar.value = "";
@@ -48,6 +56,10 @@ document.addEventListener('DOMContentLoaded', function() {
       else if(e.target && e.target.classList == "material-icons removeCard")
       {
         removeCard(e.target.dataset.name);
+      }
+      else if(e.target && e.target.classList == "col s2 offset-s1 btn btn-small purple waves-effect waves-light reviewButton")
+      {
+        practiseInstance.open();
       }
     });
 
