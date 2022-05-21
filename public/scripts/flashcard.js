@@ -110,12 +110,14 @@ document.addEventListener('DOMContentLoaded', function() {
       {
         remainingCards--;
         displayFlashcard(cardsToReview[nextCard], remainingCards);
-        // updateReviewCard(cardsToReview[currentCard]);
+       
       }
       else
       {
+        
         reviewComplete();
       }
+       // updateReviewCard(cardsToReview[currentCard]);
       currentCard++;
     }
 
@@ -132,6 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       if(!cardsToReview[previousCard - 1])
       {
+        // updateReviewCard(cardsToReview[0]); 
         previousButton.classList.toggle("disabled");
       }
       if(cardsToReview[currentCard] && nextButton.classList.contains("disabled"))
