@@ -52,44 +52,50 @@ if (!isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] != 1) {
             <div id="practiseModal" class="modal">
                 <div class="modal-content center-align">
                     <div class="center-align">
-                        <span id="remainingCards">23</span><span id="remaining"> Cards Remaining</span>
+                        <span id="remainingCards"></span><span id="remaining"> Cards Remaining</span>
                     </div>
                     <div class="container center-align">
                         <section class="cardContainer">
                             <div id="card">
                                 <figure class="front blue-grey darken-1 z-depth-2">
-                                    <span id="frontWords" class="white-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A fugiat, doloremque voluptatem at natus distinctio corrupti omnis aperiam nemo ipsam laudantium quas. Nulla, aspernatur blanditiis reprehenderit illo ducimus perspiciatis harum?</span>
+                                    <div id="frontWords" class="white-text">
+                                        <span id="complete" class="hide">Review is Complete</span>
+                                        <span id="furigana"></span>
+                                        <span id="kanji"></span>
+                                    </div>
                                 </figure>
                                 <figure class="back blue-grey darken-1 z-depth-2">
-                                    <span id="backWords" class="white-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A fugiat, doloremque voluptatem at natus distinctio corrupti omnis aperiam nemo ipsam laudantium quas. Nulla, aspernatur blanditiis reprehenderit illo ducimus perspiciatis harum?</span>
+                                    <div id="backWords" class="white-text">
+                                        <span id="english"></span>
+                                    </div>
                                 </figure>
                             </div>
                         </section>
                         <section id="options">
                             <p>
-                                <a id="flip" class="btn blue tooltipped" data-position="down" data-tooltip="Flip Card"><i class="material-icons">flip</i></a>
+                                <a id="flip" class="btn blue tooltipped waves-effect waves-light" data-position="down" data-tooltip="Flip Card"><i class="material-icons">flip</i></a>
                             </p>
                         </section>
                     </div>
                     <div class="container" id="flashButtons">
                         <div class="row">
                             <div class="col s3">
-                                <a class="btn indigo" id="previousButton"><i class="material-icons">navigate_before</i></a>
+                                <a class="btn indigo waves-effect waves-light" id="previousButton"><i class="material-icons">navigate_before</i></a>
                             </div>
                             <div class="col s3">
-                                <a class="btn red tooltipped" data-position="top" data-tooltip="Level Down" id="downButton"><i class="material-icons">thumb_down</i></a>
+                                <a class="btn red tooltipped waves-effect waves-light" data-position="top" data-tooltip="Level Down" id="downButton"><i class="material-icons">thumb_down</i></a>
                             </div>
                             <div class="col s3">
-                                <a class="btn tooltipped" data-position="top" data-tooltip="Level Up" id="upButton"><i class="material-icons">thumb_up</i></a>
+                                <a class="btn tooltipped waves-effect waves-light" data-position="top" data-tooltip="Level Up" id="upButton"><i class="material-icons">thumb_up</i></a>
                             </div>
                             <div class="col s3">
-                                <a class="btn indigo" id="nextButton"><i class="material-icons">navigate_next</i></a>
+                                <a class="btn indigo waves-effect waves-light" id="nextButton"><i class="material-icons">navigate_next</i></a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a class="modal-close waves-effect waves-green btn-flat">Close</a>
+                    <a class="modal-close waves-effect waves-green btn-flat" id="closeReview">Close</a>
                 </div>
             </div>
             <div id="viewModal" class="modal modal-fixed-footer">

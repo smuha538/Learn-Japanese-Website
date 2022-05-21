@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     let elems = document.querySelectorAll('.modal');
-    let instances = M.Modal.init(elems);
+    M.Modal.init(elems);
     let deckBar = document.querySelector("#deckName");
     let createDeck = document.querySelector('#deckModal');
     let deckInstance = M.Modal.getInstance(createDeck);
@@ -13,11 +13,24 @@ document.addEventListener('DOMContentLoaded', function() {
     let deckSection = document.querySelector('#decks');
     let deckHelper = document.querySelector('#deckHelper');
     let cardSection = document.querySelector('#cardSection');
-    let card = document.getElementById('card');
+    let card = document.querySelector('#card');
     let tooltips = document.querySelectorAll('.tooltipped');
+    let furiganaSection = document.querySelector("#furigana");
+    let kanjiSection = document.querySelector("#kanji");
+    let englishSection = document.querySelector("#english");
+    let remainingCardsSection = document.querySelector("#remainingCards");
     M.Tooltip.init(tooltips, options);
+    let nextButton = document.querySelector("#nextButton");
+    let previousButton = document.querySelector("#previousButton");
+    let upButton = document.querySelector("#upButton");
+    let downButton = document.querySelector("#downButton");
+    let complete = document.querySelector("#complete");
     let deckArray = [];
     let currentDeck;
+    let cardsToReview = [];
+    let remainingCards = 0;
+    let currentCard = 0;
+    loadDeck();
 
     document.querySelector("#flip").addEventListener('click', function() {
     card.classList.toggle('flipped');}, false);
@@ -33,7 +46,29 @@ document.addEventListener('DOMContentLoaded', function() {
       loadDeck();
     });
 
-    loadDeck();
+    document.querySelector("#closeReview").addEventListener("click", () => {
+      cardsToReview = [];
+      remainingCards = 0;
+      currentCard = 0;
+      clearChild(deckSection);
+      loadDeck();
+    });
+
+    nextButton.addEventListener("click", () => {
+      displayNextCard();
+    });
+
+    previousButton.addEventListener('click', () => {
+      displayPreviousCard();
+    });
+
+    upButton.addEventListener("click", () => {
+      displayNextCard("levelUp");
+    });
+
+    downButton.addEventListener('click', () => {
+      displayNextCard("levelDown");
+    });
 
     document.querySelector("#deckCreateButton").addEventListener("click", () => {
       addDeck();
@@ -59,9 +94,104 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       else if(e.target && e.target.classList == "col s2 offset-s1 btn btn-small purple waves-effect waves-light reviewButton")
       {
-        practiseInstance.open();
+        populateReview(e.target.dataset.name);
       }
     });
+
+    function displayNextCard(type = null)
+    {
+      let nextCard = currentCard + 1;
+
+      if(previousButton.classList.contains("disabled"))
+      {
+        previousButton.classList.toggle("disabled");
+      }
+      if(cardsToReview[nextCard])
+      {
+        remainingCards--;
+        displayFlashcard(cardsToReview[nextCard], remainingCards);
+        // updateReviewCard(cardsToReview[currentCard]);
+      }
+      else
+      {
+        reviewComplete();
+      }
+      currentCard++;
+    }
+
+    function displayPreviousCard()
+    {
+      let previousCard = currentCard - 1;
+      
+      if(cardsToReview[previousCard])
+      {
+        remainingCards++;
+        displayFlashcard(cardsToReview[previousCard], remainingCards);
+        // updateReviewCard(cardsToReview[currentCard]); 
+        currentCard--; 
+      }
+      if(!cardsToReview[previousCard - 1])
+      {
+        previousButton.classList.toggle("disabled");
+      }
+      if(cardsToReview[currentCard] && nextButton.classList.contains("disabled"))
+      {
+        nextButton.classList.toggle("disabled");
+        upButton.classList.toggle("disabled");
+        downButton.classList.toggle("disabled");
+        complete.classList.toggle("hide");
+      }
+      if(currentDeck["complete"])
+      {
+        // updateDeck(currentDeck, "uncomplete");
+      }
+    }
+
+    function reviewComplete()
+    {
+      complete.classList.toggle("hide");
+      englishSection.textContent = "";
+      kanjiSection.textContent = "";
+      furiganaSection.textContent = "";
+      remainingCardsSection.textContent = 0;
+      nextButton.classList.toggle("disabled");
+      upButton.classList.toggle("disabled");
+      downButton.classList.toggle("disabled");
+      remainingCards = 0;
+      // updateDeck(currentDeck, "complete");
+    }
+
+    function populateReview(deckName)
+    {
+      currentDeck = deckName;
+      practiseInstance.open();
+      let deck = deckArray.find((array) => array["name"] == deckName);
+      let cards = deck["cards"];
+      cardsToReview = getReviewCards(cards);
+      remainingCards = cardsToReview.length;
+      previousButton.classList.toggle("disabled");
+      displayFlashcard(cardsToReview[0], remainingCards);
+    }
+
+    function displayFlashcard(card, cardNum)
+    {
+      furiganaSection.textContent = card["japanese"]["furigana"];
+      card["japanese"]["kanji"] == "undefined" ? kanjiSection.textContent = "" : kanjiSection.textContent = card["japanese"]["kanji"];
+      englishSection.textContent = card["english"];
+      remainingCardsSection.textContent = cardNum;
+    }
+
+    function getReviewCards(cards)
+    {
+      let reviewCards = cards.filter((card) => {
+        if(reviewDate(card) == "Today" && card["learned"] == true && card["reviewed"] == false)
+        {
+          return card;
+        }
+      });
+
+      return reviewCards;
+    }
 
     function removeCard(card)
     {
@@ -105,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function() {
       let japaneseWords = createSpan(japanese, "col l4 s3 truncate");
       let englishWords = createSpan(card["english"], "col l4 s2 truncate");
       let learned = cardLearned(card);
-      let review = reviewDate(card);
+      let review = createSpan(reviewDate(card), "col l2 s3");
       let deleteIcon = removeCardIcon(card);
       appendToElement(japaneseWords, row);
       appendToElement(englishWords, row);
@@ -155,8 +285,7 @@ document.addEventListener('DOMContentLoaded', function() {
         practice = diffDays + " days";
       }
 
-      let review = createSpan(practice, "col l2 s3");
-      return review;
+      return practice;
       
     }
 
@@ -168,8 +297,19 @@ document.addEventListener('DOMContentLoaded', function() {
     function cardLearned(card)
     {
       let learned;
-      card["learned"] == true ? learned = "unlearn" : learned = "learn"
-      let learnedSection = createHref(null, learned, "col l1 s2 btn-small cardStatus");
+      let classes;
+      if(card["learned"])
+      {
+        learned = "unlearn";
+        classes = "col l1 s2 btn-small cardStatus red";
+      }
+      else
+      {
+        learned = "learn";
+        classes = "col l1 s2 btn-small cardStatus";
+      }
+        
+      let learnedSection = createHref(null, learned, classes);
       return learnedSection;
     }
 
@@ -277,11 +417,30 @@ document.addEventListener('DOMContentLoaded', function() {
         reviewClasses += " disabled";
         reviewText = "Done for the Day";
       }
-      if(deck["cards"].length == 0)
+      else if(deck["cards"].length == 0)
       {
         reviewClasses += " disabled";
         reviewText = "Empty Deck";
       }
+      else if(!learnedCards(deck["cards"]))
+      {
+        reviewClasses += " disabled";
+        reviewText = "No Learned Cards";
+      }
       return createHref(null, reviewText, reviewClasses);
     }
   });
+
+  function learnedCards(cards)
+  {
+    let learned = false;
+
+    cards.forEach((card) => {
+      if(card["learned"] == true)
+      {
+        learned = true;
+      }
+    });
+
+    return learned;
+  }
