@@ -5,7 +5,7 @@ if (isset($_GET["card"]) && $_GET["card"] != "" && isset($_GET["deck"]) && $_GET
     $card_info = json_decode($_GET["card"]);
     $deck_name = $_GET["deck"];
     $card_info->japanese->kanji == null ? $kanji = "undefined" : $kanji = $card_info->japanese->kanji;
-    $card = ["english" => $card_info->english, "japanese" => ["kanji" => $kanji, "furigana" => $card_info->japanese->furigana], "difficultly_level" => "", "review_date" => "", "reviewed" => false, "learned" => false];
+    $card = ["english" => $card_info->english, "japanese" => ["kanji" => $kanji, "furigana" => $card_info->japanese->furigana], "difficulty_level" => "0", "review_date" => "", "reviewed" => false, "learned" => false];
     $users = require "../partials/database.php";
     $user = $users->findOne(array("_id" => $_SESSION["userId"]));
     $decks = json_decode(json_encode($user->decks), true);

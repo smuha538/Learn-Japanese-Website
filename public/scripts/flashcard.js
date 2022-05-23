@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.querySelector("#closeReview").addEventListener("click", () => {
+      deckArray = [];
       cardsToReview = [];
       remainingCards = 0;
       currentCard = 0;
@@ -59,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     previousButton.addEventListener('click', () => {
-      displayPreviousCard();
+      displayPreviousCard("revert");
     });
 
     upButton.addEventListener("click", () => {
@@ -109,19 +110,17 @@ document.addEventListener('DOMContentLoaded', function() {
       if(cardsToReview[nextCard])
       {
         remainingCards--;
-        displayFlashcard(cardsToReview[nextCard], remainingCards);
-       
+        displayFlashcard(cardsToReview[nextCard], remainingCards);    
       }
       else
-      {
-        
+      { 
         reviewComplete();
       }
-       // updateReviewCard(cardsToReview[currentCard]);
+      updateReviewCard(cardsToReview[currentCard], type);
       currentCard++;
     }
 
-    function displayPreviousCard()
+    function displayPreviousCard(type)
     {
       let previousCard = currentCard - 1;
       
@@ -129,25 +128,149 @@ document.addEventListener('DOMContentLoaded', function() {
       {
         remainingCards++;
         displayFlashcard(cardsToReview[previousCard], remainingCards);
-        // updateReviewCard(cardsToReview[currentCard]); 
-        currentCard--; 
+        if(cardsToReview[previousCard]){updateReviewCard(cardsToReview[previousCard], type); }
+        currentCard--;
       }
       if(!cardsToReview[previousCard - 1])
       {
-        // updateReviewCard(cardsToReview[0]); 
         previousButton.classList.toggle("disabled");
       }
       if(cardsToReview[currentCard] && nextButton.classList.contains("disabled"))
       {
+        updateDeck("incomplete");
         nextButton.classList.toggle("disabled");
         upButton.classList.toggle("disabled");
         downButton.classList.toggle("disabled");
         complete.classList.toggle("hide");
       }
-      if(currentDeck["complete"])
+    }
+
+    function updateDeck(status)
+    {
+      let date = getDate(new Date);
+      let xhr = new XMLHttpRequest();
+      xhr.open('GET', 'updatedeck.php?deck='+currentDeck+'&status='+status+'&date='+date, true);
+      xhr.send();
+    }
+
+    function updateReviewCard(card, type = null)
+    {
+      if(type == "levelUp")
       {
-        // updateDeck(currentDeck, "uncomplete");
+        reviewDateHelper(card, type, "reviewed")
       }
+      else if(type == "levelDown")
+      {
+        card["difficulty_level"] == "1" ? updateReviewCard(card) : reviewDateHelper(card, type, "reviewed");
+      }
+      else if(type == "revert")
+      {
+        reviewDateHelper(card, type, "notReviewed")
+      }
+      else
+      {
+        reviewDateHelper(card, type, "reviewed")
+      }
+    }
+
+    function updateReviewDate(card, date, status, difficulty)
+    {
+      let xhr = new XMLHttpRequest();
+      xhr.open('GET', 'updatecard.php?deck='+currentDeck+'&card='+JSON.stringify(card["english"])+'&date='+date+'&status='+status+'&difficulty='+difficulty, true);
+      xhr.send();
+    }
+
+    function reviewDateHelper(card, type, status)
+    {
+      let newCardLevel;
+      let newReviewPeriod;
+      let newReviewDate;
+
+      type == null || type == "revert" ? newCardLevel = card["difficulty_level"] : newCardLevel = calculateCardLevel(card["difficulty_level"], type);
+      newReviewPeriod = getReviewPeriod(newCardLevel);
+      type == "revert" ? newReviewDate = getDate(new Date) : newReviewDate = calculateReviewDate(newReviewPeriod);
+      newCardLevel == "5" ? updateReviewDate(card, "Never", status, newCardLevel) : updateReviewDate(card, newReviewDate, status, newCardLevel);
+    }
+
+    function calculateCardLevel(cardLevel, type)
+    {
+      let newCardLevel;
+      if(cardLevel == "0" && type == "levelUp" || cardLevel == "1-2" && type == "levelDown" || cardLevel == "1-3" && type == "levelDown")
+      {
+        newCardLevel = "1";
+      }
+      else if(cardLevel == "1" && type == "levelUp" || cardLevel == "2" && type == "levelDown")
+      {
+        newCardLevel = "1-2";
+      }
+      else if(cardLevel == "1-2" && type == "levelUp" || cardLevel == "2-2" && type == "levelDown")
+      {
+        newCardLevel = "1-3";
+      }
+      else if(cardLevel == "1-3" && type == "levelUp" || cardLevel == "2-3" && type == "levelDown")
+      {
+        newCardLevel = "2";
+      }
+      else if(cardLevel == "2" && type == "levelUp" || cardLevel == "3" && type == "levelDown")
+      {
+        newCardLevel = "2-2";
+      }
+      else if(cardLevel == "2-2" && type == "levelUp" || cardLevel == "3-2" && type == "levelDown")
+      {
+        newCardLevel = "2-3";
+      }
+      else if(cardLevel == "2-3" && type == "levelUp" || cardLevel == "3-3" && type == "levelDown")
+      {
+        newCardLevel = "3";
+      }
+      else if(cardLevel == "3" && type == "levelUp" || cardLevel == "4" && type == "levelDown")
+      {
+        newCardLevel = "3-2";
+      }
+      else if(cardLevel == "3-2" && type == "levelUp" || cardLevel == "4-2" && type == "levelDown")
+      {
+        newCardLevel = "3-3";
+      }
+      else if(cardLevel == "3-3" && type == "levelUp" || cardLevel == "4-3" && type == "levelDown")
+      {
+        newCardLevel = "4";
+      }
+      else if(cardLevel == "4" && type == "levelUp")
+      {
+        newCardLevel = "4-2";
+      }
+      else if(cardLevel == "4-2" && type == "levelUp" )
+      {
+        newCardLevel = "4-3";
+      }
+      else if(cardLevel == "4-3" && type == "levelUp" )
+      {
+        newCardLevel = "5";
+      }
+      return newCardLevel;
+    }
+
+    function calculateReviewDate(days)
+    {
+      let date = new Date();
+      Date.prototype.addDays = function(days) 
+      {
+        let date = new Date(this.valueOf());
+        date.setDate(date.getDate() + days);
+        return date;
+      }
+  
+      date = date.addDays(days);
+      return getDate(date);
+    }
+
+    function getDate(date)
+    {
+      let month = date.getUTCMonth() + 1;
+      let day = date.getUTCDate();
+      let year = date.getUTCFullYear();
+      let reviewDate = month + "/" + day + "/" + year;
+      return reviewDate;
     }
 
     function reviewComplete()
@@ -161,7 +284,7 @@ document.addEventListener('DOMContentLoaded', function() {
       upButton.classList.toggle("disabled");
       downButton.classList.toggle("disabled");
       remainingCards = 0;
-      // updateDeck(currentDeck, "complete");
+      updateDeck("complete");
     }
 
     function populateReview(deckName)
@@ -187,7 +310,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function getReviewCards(cards)
     {
       let reviewCards = cards.filter((card) => {
-        if(reviewDate(card) == "Today" && card["learned"] == true && card["reviewed"] == false)
+        if(reviewDate(card) == "Today" && card["learned"] == true && card["reviewed"] == false && card["difficulty_level"] != "5")
         {
           return card;
         }
@@ -267,9 +390,13 @@ document.addEventListener('DOMContentLoaded', function() {
       let diffTime = cardDate - today;
       let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
       let practice;
-      if(diffDays < 0)
+      if(card["learned"] == false)
       {
-        practice = recalibrateDate(card);
+        practice = "Not Learned";
+      }
+      else if(card["difficulty_level"] == "5")
+      {
+        practice = "Never";
       }
       else if(diffDays == 0)
       {
@@ -279,9 +406,11 @@ document.addEventListener('DOMContentLoaded', function() {
       {
         practice = "Tommorow";
       }
-      else if(card["learned"] == false)
+      else if(diffDays < 0)
       {
-        practice = "Not Learned";
+        practice = getReviewPeriod(card["difficulty_level"]);
+        let newReviewDate = calculateReviewDate(practice);
+        updateReviewDate(card, newReviewDate);
       }
       else
       {
@@ -292,9 +421,59 @@ document.addEventListener('DOMContentLoaded', function() {
       
     }
 
-    function recalibrateDate(card)
+    function getReviewPeriod(level)
     {
-      
+      let days;
+      if(level == "1")
+      {
+        days = 1;
+      }
+      else if(level == "1-2")
+      {
+        days = 2;
+      }
+      else if(level == "1-3")
+      {
+        days = 3;
+      }
+      else if(level == "2")
+      {
+        days = 7;
+      }
+      else if(level == "2-2")
+      {
+        days = 14;
+      }
+      else if(level == "2-3")
+      {
+        days = 21;
+      }
+      else if(level == "3")
+      {
+        days = 30;
+      }
+      else if(level == "3-2")
+      {
+        days = 61;
+      }
+      else if(level == "3-3")
+      {
+        days = 91;
+      }
+      else if(level == "4")
+      {
+        days = 183;
+      }
+      else if(level == "4-2")
+      {
+        days = 274;
+      }
+      else if(level == "4-3")
+      {
+        days = 365;
+      }
+
+      return days;
     }
 
     function cardLearned(card)
@@ -428,7 +607,7 @@ document.addEventListener('DOMContentLoaded', function() {
       else if(!learnedCards(deck["cards"]))
       {
         reviewClasses += " disabled";
-        reviewText = "No Learned Cards";
+        reviewText = "No Cards Learned";
       }
       return createHref(null, reviewText, reviewClasses);
     }
