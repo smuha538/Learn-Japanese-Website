@@ -1,5 +1,3 @@
-document.addEventListener('DOMContentLoaded', function() {
-
     let elems = document.querySelectorAll('.modal');
     M.Modal.init(elems);
     let deckBar = document.querySelector("#deckName");
@@ -97,7 +95,52 @@ document.addEventListener('DOMContentLoaded', function() {
       {
         populateReview(e.target.dataset.name);
       }
+      else if(e.target && e.target.classList == "col l1 s2 btn-small cardStatus red" || e.target && e.target.classList == "col l1 s2 btn-small cardStatus")
+      {
+        learnStatus(e.target);
+      }
     });
+
+    function learnStatus(card)
+    {
+      let cardName = card.dataset.name;
+      let status = card.textContent;
+      let level;
+      let date;
+      
+      if(status == "learn")
+      {
+        level = "1";
+        date = calculateReviewDate(getReviewPeriod(level));
+      }
+      else
+      {
+        level = "0"
+        date = "";
+      }
+      updateCardStatus(card, cardName, status);
+      let xhr = new XMLHttpRequest();
+      xhr.open('GET', 'updatecardstatus.php?deck='+currentDeck+'&status='+status+'&date='+date+'&difficulty='+level+'&card='+JSON.stringify(cardName), true);
+      xhr.send();
+
+    }
+
+    function updateCardStatus(cardButton, card, status)
+    {   
+      let dataset = `[data-name='${card}Review']`;
+      let learnSection = document.querySelector(dataset);
+      if(status == "learn")
+      {
+        learnSection.textContent = "Tommorow";
+        cardButton.textContent = "unlearn";
+      }
+      else 
+      {
+        learnSection.textContent = "Not Learned";
+        cardButton.textContent = "learn";
+      }
+      cardButton.classList.toggle("red");
+    }
 
     function displayNextCard(type = null)
     {
@@ -362,6 +405,7 @@ document.addEventListener('DOMContentLoaded', function() {
       let englishWords = createSpan(card["english"], "col l4 s2 truncate");
       let learned = cardLearned(card);
       let review = createSpan(reviewDate(card), "col l2 s3");
+      review.dataset.name = card["english"]+"Review";
       let deleteIcon = removeCardIcon(card);
       appendToElement(japaneseWords, row);
       appendToElement(englishWords, row);
@@ -492,6 +536,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
         
       let learnedSection = createHref(null, learned, classes);
+      learnedSection.dataset.name = card["english"];
       return learnedSection;
     }
 
@@ -609,9 +654,28 @@ document.addEventListener('DOMContentLoaded', function() {
         reviewClasses += " disabled";
         reviewText = "No Cards Learned";
       }
+      else if(!cardReviewDay(deck["cards"]))
+      {
+        reviewClasses += " disabled";
+        reviewText = "Nothing to Review";
+      }
       return createHref(null, reviewText, reviewClasses);
     }
-  });
+
+  function cardReviewDay(cards)
+  {
+    let today = false;
+    let date = getDate(new Date);
+
+    cards.forEach((card) => {
+      if(card["review_date"] == date)
+      {
+        today = true;
+      }
+    });
+
+    return today;
+  }
 
   function learnedCards(cards)
   {
