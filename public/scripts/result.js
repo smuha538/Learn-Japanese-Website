@@ -73,19 +73,21 @@
         {
             sessionStorage.removeItem("cardWord");
         }
+        let counter = 0;
         data.forEach((word) => {
-            let result = createResultSection(word);
+            let result = createResultSection(word, counter);
             appendToElement(result, resultSection);
+            counter++;
         });
     }
 
-    function createResultSection(keyword)
+    function createResultSection(keyword, counter)
     {
         addToStorage(keyword);
         let resultDiv = createDiv("col s12 result");
         let row = createDiv("row");
         appendToElement(row, resultDiv);
-        let wordSection = createWordSection(keyword)
+        let wordSection = createWordSection(keyword, counter)
         appendToElement(wordSection, row);
         let definitionSection = createDefinitionSection(keyword);
         appendToElement(definitionSection, row);
@@ -202,7 +204,7 @@
         return definitionEntry;
     }
 
-    function createWordSection(keyword)
+    function createWordSection(keyword, counter)
     {
         let wordSection = createDiv("col s12 l3");
         let word = createDiv("word");
@@ -211,12 +213,12 @@
         appendToElement(furigana, word);
         appendToElement(kanji, word);
         appendToElement(word, wordSection);
-        let tagSection = createTagSection(keyword);
+        let tagSection = createTagSection(keyword, counter);
         appendToElement(tagSection, wordSection);
         return wordSection;
     }
 
-    function createTagSection(keyword)
+    function createTagSection(keyword, counter)
     {
         let tagSection = createDiv("row");
         let tag = createDiv("tags col s6 l12");
@@ -241,7 +243,7 @@
 
         if(document.querySelector("#logged") != null)
         {
-            insert = insertOption(keyword);
+            insert = insertOption(keyword, counter);
             appendToElement(insert, tagSection);
         }
         return tagSection;
@@ -262,17 +264,21 @@
         storagedDecks = decks;
     }
 
-    function insertOption(keyword)
+    function insertOption(keyword, counter)
     {
         let english = getAllEnglish(keyword);
         let insertToDeck = createDiv("addToCard grey z-depth-2 col s2 l6");
         let href = createHref(null, null, "btn-floating btn-small waves-effect waves-light green disabled addButton");  
         let message = createSpan("Select a Deck", "addMessage white-text");
         let icon = createIcon("add", "material-icons addIcon");
+        icon.dataset.id = counter.toString();
+        href.dataset.id = counter.toString();
+        insertToDeck.dataset.id = counter.toString();
+        message.dataset.id = counter.toString();
         icon.dataset.name = english;
-        href.dataset.name = english;
-        insertToDeck.dataset.name = english;
-        message.dataset.name = english;
+        // href.dataset.name = english;
+        // insertToDeck.dataset.name = english;
+        // message.dataset.name = english;
         appendToElement(message, insertToDeck);
         appendToElement(icon, href);
         appendToElement(href, insertToDeck);
@@ -397,7 +403,9 @@
 
     function updateInsertButton(data)
     {
-        let dataset = `[data-name='${data}']`;
+        
+        let dataset = `[data-id='${data}']`;
+       
         let cards = document.querySelectorAll(dataset);
         cards.forEach((card) => {
             if(card.classList.contains("addButton"))
@@ -426,7 +434,7 @@
         if(e.target && e.target.classList == "material-icons addIcon")
         {
             addToDeck(e.target.dataset.name);
-            updateInsertButton(e.target.dataset.name);
+            updateInsertButton(e.target.dataset.id);
             loadDeck();
         }
     })

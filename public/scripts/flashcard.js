@@ -89,7 +89,7 @@
       }
       else if(e.target && e.target.classList == "material-icons removeCard")
       {
-        removeCard(e.target.dataset.name);
+        removeCard(e.target.dataset.name, e.target.dataset.removeId);
       }
       else if(e.target && e.target.classList == "col s2 offset-s1 btn btn-small purple waves-effect waves-light reviewButton")
       {
@@ -118,16 +118,16 @@
         level = "0"
         date = "";
       }
-      updateCardStatus(card, cardName, status);
+      updateCardStatus(card, card.dataset.id, status);
       let xhr = new XMLHttpRequest();
       xhr.open('GET', 'updatecardstatus.php?deck='+currentDeck+'&status='+status+'&date='+date+'&difficulty='+level+'&card='+JSON.stringify(cardName), true);
       xhr.send();
 
     }
 
-    function updateCardStatus(cardButton, card, status)
+    function updateCardStatus(cardButton, counter, status)
     {   
-      let dataset = `[data-name='${card}Review']`;
+      let dataset = `[data-reviewid='${counter}Review']`;
       let learnSection = document.querySelector(dataset);
       if(status == "learn")
       {
@@ -362,9 +362,9 @@
       return reviewCards;
     }
 
-    function removeCard(card)
+    function removeCard(card, counter)
     {
-      let dataset = `[data-name='${card}Section']`;
+      let dataset = `[data-mainid='${counter}Section']`;
       let cardSection = document.querySelector(dataset);
       let xhr = new XMLHttpRequest();
       xhr.open('GET', 'removecard.php?deck='+currentDeck+'&card='+card, true);
@@ -382,9 +382,11 @@
       if(cards.length != 0)
       {
         currentDeck = deckName;
+        let counter = 0;
         cards.forEach((card) => {
-        let entry = createCard(card);
+        let entry = createCard(card, counter);
         appendToElement(entry, cardSection);
+        counter++;
         }); 
       }
       else
@@ -394,19 +396,19 @@
       }
     }
 
-    function createCard(card)
+    function createCard(card, counter)
     {
       let main = createDiv("col s12");
-      main.dataset.name = card["english"]+"Section";
+      main.dataset.mainid = counter+"Section";
       let row = createDiv("row");
       let japanese;
       card["japanese"]["kanji"] == "undefined" ? japanese = card["japanese"]["furigana"] : japanese = card["japanese"]["kanji"];
       let japaneseWords = createSpan(japanese, "col l4 s3 truncate");
       let englishWords = createSpan(card["english"], "col l4 s2 truncate");
-      let learned = cardLearned(card);
+      let learned = cardLearned(card, counter);
       let review = createSpan(reviewDate(card), "col l2 s3");
-      review.dataset.name = card["english"]+"Review";
-      let deleteIcon = removeCardIcon(card);
+      review.dataset.reviewid = counter+"Review";
+      let deleteIcon = removeCardIcon(card, counter);
       appendToElement(japaneseWords, row);
       appendToElement(englishWords, row);
       appendToElement(learned, row);
@@ -416,11 +418,12 @@
       return main;
     }
 
-    function removeCardIcon(card)
+    function removeCardIcon(card, counter)
     {
       let iconSection = createDiv("col l1 s1");
       let ref = createHref(null, null, "btn-floating btn-small waves-effect waves-light red removeCard");
       let icon = createIcon("remove", "material-icons removeCard");
+      icon.dataset.removeId = counter;
       icon.dataset.name = card["english"];
       appendToElement(icon, ref);
       appendToElement(ref, iconSection);
@@ -520,7 +523,7 @@
       return days;
     }
 
-    function cardLearned(card)
+    function cardLearned(card, counter)
     {
       let learned;
       let classes;
@@ -536,6 +539,7 @@
       }
         
       let learnedSection = createHref(null, learned, classes);
+      learnedSection.dataset.id = counter;
       learnedSection.dataset.name = card["english"];
       return learnedSection;
     }
