@@ -36,6 +36,8 @@ if (isset($_GET["deck"]) && isset($_GET["card"]) && isset($_GET["date"]) && isse
         foreach ($element as $valueKey => $value) {
             if ($valueKey == 'english' && $value === $card_name) {
                 $status ? $_SESSION["decks"][$deck_id]["cards"][$elementKey]["reviewed"] = true : $_SESSION["decks"][$deck_id]["cards"][$elementKey]["reviewed"] = false;
+                $_SESSION["decks"][$deck_id]["cards"][$elementKey]["review_date"] = $date;
+                $_SESSION["decks"][$deck_id]["cards"][$elementKey]["difficulty_level"] = $level;
             }
         }
     }
