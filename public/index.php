@@ -24,19 +24,23 @@
 
                 </div>
             </div>
-            <div id='featureSection' class='col s12 teal lighten-1 z-depth-2'>
+            <?php
+            if (!isset($_SESSION["loggedIn"])) {
+                echo "<div id='featureSection' class='col s12 teal lighten-1 z-depth-2'>
                 <h5 class='center-align white-text'>ALL YOUR LEARNING NEEDS IN ONE PLACE</h5>
                 <div class='black-text'>
                     <a href='./register.php' class='blue-text text-darken-3' style='font-weight: bolder;'>Create</a> an Account or <a href='./login.php' class='blue-text text-darken-3' style='font-weight: bolder;'>Login</a> to Unlock New Features Such as:
                 </div>
                 <div>
-                    <ul id="features">
+                    <ul id='features'>
                         <li>Creating Your Own Flashcard Decks</li>
-                        <li>Creating Review Lists</li>
-                        <li>Translate Words and Phrases from Japanese to English and Vice-Versa</li>
+                        <li>Adding Words and Phrases to Decks</li>
+                        <li>Spaced Repetition Review of Flashcards</li>
                     </ul>
                 </div>
-            </div>
+            </div>";
+            }
+            ?>
         </div>
     </div>
     <script src="./scripts/index.js"></script>
