@@ -8,8 +8,8 @@ body {
   }
   
 .container {
-    /* https://unsplash.com/photos/9Ev3ctTEaWA */
     margin-top: 1rem;
+    border-radius: 15px;
 }
 
 #showMoreButton{

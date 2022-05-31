@@ -21,6 +21,11 @@ body{
 
 .container {
     margin-top: 1%;
+    border-radius: 15px;
+}
+
+.modal{
+    border-radius: 15px;
 }
 
 .deckTitle{

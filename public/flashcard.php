@@ -20,7 +20,7 @@ if (!isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] != 1) {
 
 <body>
     <?= createHeader2(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == 1, './images/headericon.png', 'indigo') ?>
-    <div class="container white z-depth-1">
+    <div class="container white darken-4 z-depth-1">
         <div class="row">
             <div class="col s12 center-align">
                 <h3 class="">Flashcard</h3>

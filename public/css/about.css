@@ -1,0 +1,13 @@
+#mainContainer {
+    margin-top: 5%;
+    border-radius: 15px;
+}
+
+body{
+    background-image: url("../images/aboutimage.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 50% 40%;
+    font-family: Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+}
