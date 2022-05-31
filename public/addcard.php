@@ -1,7 +1,7 @@
 <?php
 require "../partials/accounthelper.php";
 session_start();
-if (isset($_GET["card"]) && $_GET["card"] != "" && isset($_GET["deck"]) && $_GET["deck"] != "") {
+if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == 1 && isset($_GET["card"]) && $_GET["card"] != "" && isset($_GET["deck"]) && $_GET["deck"] != "") {
     $card_info = json_decode($_GET["card"]);
     $deck_name = $_GET["deck"];
     $card_info->japanese->kanji == null ? $kanji = "undefined" : $kanji = $card_info->japanese->kanji;
@@ -22,4 +22,6 @@ if (isset($_GET["card"]) && $_GET["card"] != "" && isset($_GET["deck"]) && $_GET
     $stored_decks = $_SESSION["decks"][$id]["cards"];
     $stored_decks[] = $card;
     $_SESSION["decks"][$id]["cards"] = $stored_decks;
+} else {
+    header("Location: ./login.php");
 }

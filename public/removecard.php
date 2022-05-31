@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if (isset($_GET["deck"]) && isset($_GET["card"])) {
+if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == 1 && isset($_GET["deck"]) && isset($_GET["card"])) {
     $deck_name = $_GET["deck"];
     $card_name = $_GET["card"];
     $users = require "../partials/database.php";
@@ -29,4 +29,6 @@ if (isset($_GET["deck"]) && isset($_GET["card"])) {
     $stored_decks = $_SESSION["decks"][$deck_id]["cards"];
     array_splice($stored_decks, $card_id, 1);
     $_SESSION["decks"][$deck_id]["cards"] = $stored_decks;
+} else {
+    header("Location: ./login.php");
 }

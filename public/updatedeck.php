@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if (isset($_GET["deck"]) && isset($_GET["status"]) && isset($_GET["date"])) {
+if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == 1 && isset($_GET["deck"]) && isset($_GET["status"]) && isset($_GET["date"])) {
     $deck_name = $_GET["deck"];
     $card_name = json_decode($_GET["card"]);
     $date = isset($_GET["date"]);
@@ -24,4 +24,6 @@ if (isset($_GET["deck"]) && isset($_GET["status"]) && isset($_GET["date"])) {
     $users->updateOne(array("_id" => $_SESSION["userId"]), array('$set' => array("decks.$deck_id.complete" => $status, "decks.$deck_id.complete_date" => $date)));
 
     $status == true ? $_SESSION["decks"][$deck_id]["complete"] = true : $_SESSION["decks"][$deck_id]["complete"] = false;
+} else {
+    header("Location: ./login.php");
 }

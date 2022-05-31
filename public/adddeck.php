@@ -1,27 +1,30 @@
 <?php
 require "../partials/accounthelper.php";
 session_start();
+if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == 1) {
+    if (isset($_GET["deck"]) && $_GET["deck"] != "") {
 
-if (isset($_GET["deck"]) && $_GET["deck"] != "") {
-
-    if (isset($_SESSION["decks"])) {
-        $deck = $_SESSION["decks"];
+        if (isset($_SESSION["decks"])) {
+            $deck = $_SESSION["decks"];
+        } else {
+            $deck = [];
+        }
+        $deck_name = $_GET["deck"];
+        if (nameExists($deck_name)) {
+            echo json_encode([]);
+        } else {
+            $users = require "../partials/database.php";
+            $new_deck = ["name" => $deck_name, "cards" => [], "complete" => false, "complete_date" => ""];
+            $users->updateOne(array("_id" => $_SESSION["userId"]), array('$addToSet' => array("decks" => $new_deck)));
+            $deck[] = $new_deck;
+            $_SESSION["decks"] = $deck;
+            echo json_encode([$new_deck]);
+        }
     } else {
-        $deck = [];
-    }
-    $deck_name = $_GET["deck"];
-    if (nameExists($deck_name)) {
         echo json_encode([]);
-    } else {
-        $users = require "../partials/database.php";
-        $new_deck = ["name" => $deck_name, "cards" => [], "complete" => false, "complete_date" => ""];
-        $users->updateOne(array("_id" => $_SESSION["userId"]), array('$addToSet' => array("decks" => $new_deck)));
-        $deck[] = $new_deck;
-        $_SESSION["decks"] = $deck;
-        echo json_encode([$new_deck]);
     }
 } else {
-    echo json_encode([]);
+    header("Location: ./login.php");
 }
 
 function nameExists($name)

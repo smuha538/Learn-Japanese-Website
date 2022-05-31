@@ -2,7 +2,7 @@
 require "../partials/accounthelper.php";
 session_start();
 
-if (isset($_GET["deck"]) && $_GET["deck"] != "") {
+if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == 1 && isset($_GET["deck"]) && $_GET["deck"] != "") {
 
     if (isset($_SESSION["decks"]) && !empty($_SESSION["decks"])) {
         foreach ($_SESSION["decks"] as $elementKey => $element) {
@@ -15,4 +15,6 @@ if (isset($_GET["deck"]) && $_GET["deck"] != "") {
             }
         }
     }
+} else {
+    header("Location: ./login.php");
 }

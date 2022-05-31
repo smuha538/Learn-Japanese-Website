@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if (isset($_GET["deck"]) && isset($_GET["card"]) && isset($_GET["date"]) && isset($_GET["status"]) && isset($_GET["difficulty"])) {
+if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == 1 && isset($_GET["deck"]) && isset($_GET["card"]) && isset($_GET["date"]) && isset($_GET["status"]) && isset($_GET["difficulty"])) {
     $deck_name = $_GET["deck"];
     $card_name = json_decode($_GET["card"]);
     $date = $_GET["date"];
@@ -41,4 +41,6 @@ if (isset($_GET["deck"]) && isset($_GET["card"]) && isset($_GET["date"]) && isse
             }
         }
     }
+} else {
+    header("Location: ./login.php");
 }
