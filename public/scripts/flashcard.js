@@ -101,6 +101,10 @@
       }
     });
 
+    /**
+     * This function changes the "learn" status in the database of a card when a user learns or unlearns a card
+     * @param {*} card 
+     */
     function learnStatus(card)
     {
       let cardName = card.dataset.name;
@@ -125,6 +129,12 @@
 
     }
 
+    /**
+     * This function changes the "learn" status on the frontend of a card when a user learns or unlearns a card 
+     * @param {*} cardButton 
+     * @param {*} counter 
+     * @param {*} status 
+     */
     function updateCardStatus(cardButton, counter, status)
     {   
       let dataset = `[data-reviewid='${counter}Review']`;
@@ -142,6 +152,10 @@
       cardButton.classList.toggle("red");
     }
 
+    /**
+     * Displays the next card in the array when reviewing the flashcard deck
+     * @param {*} type 
+     */
     function displayNextCard(type = null)
     {
       let nextCard = currentCard + 1;
@@ -163,6 +177,10 @@
       currentCard++;
     }
 
+    /**
+     * Displays the previous card in the array when reviewing flashcard deck
+     * @param {*} type 
+     */
     function displayPreviousCard(type)
     {
       let previousCard = currentCard - 1;
@@ -188,6 +206,10 @@
       }
     }
 
+    /**
+     * Updates the status when a deck review is complete or not
+     * @param {*} status 
+     */
     function updateDeck(status)
     {
       let date = getDate(new Date);
@@ -196,6 +218,11 @@
       xhr.send();
     }
 
+    /**
+     * Updates the level of the card
+     * @param {*} card 
+     * @param {*} type 
+     */
     function updateReviewCard(card, type = null)
     {
       if(type == "levelUp")
@@ -216,6 +243,13 @@
       }
     }
 
+    /**
+     * Updates the card whenever it is done reviewing or not
+     * @param {*} card 
+     * @param {*} date 
+     * @param {*} status 
+     * @param {*} difficulty 
+     */
     function updateReviewDate(card, date, status, difficulty)
     {
       let xhr = new XMLHttpRequest();
