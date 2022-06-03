@@ -455,9 +455,11 @@
       }
       else if(diffDays < 0)
       {
-        practice = getReviewPeriod(card["difficulty_level"]);
-        let newReviewDate = calculateReviewDate(practice);
-        updateReviewDate(card, newReviewDate);
+        let level = card["difficulty_level"];
+        let period = getReviewPeriod(level);
+        period == 1 ? practice = "Tommorow" : practice = period + " days";
+        let newReviewDate = calculateReviewDate(period);
+        updateReviewDate(card, newReviewDate, false, level);
       }
       else
       {
