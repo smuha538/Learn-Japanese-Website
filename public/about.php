@@ -27,13 +27,19 @@ require "../partials/header.php";
                 <h4><a href="https://github.com/mistval/unofficial-jisho-api" class="blue-text" target="_blank">Jisho API</a></h4>
             </div>
             <div class="col s10 offset-s1">
-                <span>The unofficial Jisho API by mistval made it possible for us to access the extensive Jisho dictionary that contains thousands of words and phrases for learners to scour through and add to their decks</span>
+                <span>The unofficial Jisho API by mistval made it possible for us to access the extensive Jisho dictionary that contains thousands of words and phrases for learners to scour through and add to their decks.</span>
             </div>
             <div class="col s12" style="margin-left: 5%;">
                 <h4><a href="https://jisho.org" class="blue-text" target="_blank">Jisho Website</a></h4>
             </div>
-            <div class="col s10 offset-s1" style="margin-bottom: 2%;">
+            <div class="col s10 offset-s1">
                 <span>Most of our design was inspired from the Jisho Website which perfectly lists and organises the dictionary entries. As the saying goes, "if it ain't broke, don't fix it".</span>
+            </div>
+            <div class="col s12" style="margin-left: 5%;">
+                <h4><a href="https://nihongo-app.com" class="blue-text" target="_blank">Nihongo App</a></h4>
+            </div>
+            <div class="col s10 offset-s1" style="margin-bottom: 2%;">
+                <span>Our flashcard functionalities were greatly inspired by the brilliant dictionary and flashcard application, Nihongo by Chris Vasselli</span>
             </div>
         </div>
     </div>
